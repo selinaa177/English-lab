@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>English Lab</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="English Lab">
+<meta name="theme-color" content="#F7F4EF">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
 :root{
@@ -117,7 +122,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .vcard-body{display:none;padding:0 15px 13px;border-top:1px solid var(--border)}
 .vcard-body.on{display:block}
 .vcard-ph{font-family:var(--mono);font-size:11px;color:var(--text3);margin:8px 0 5px}
-.vcard-def{font-size:13px;color:var(--text2);margin-bottom:8px;line-height:1.6}
+.vcard-def{font-size:13px;color:var(--text2);margin-bottom:6px;line-height:1.6}
+.pos-tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--accent);background:var(--accent2);padding:1px 5px;border-radius:3px;margin-right:4px;text-transform:lowercase}
 .vcard-ex{font-family:var(--serif);font-size:13px;color:var(--text2);font-style:italic;padding:8px 11px;background:var(--bg3);border-radius:6px;line-height:1.6}
 .vcard-exzh{font-style:normal;font-family:var(--sans);font-size:11px;color:var(--text3);margin-top:4px;display:block}
 
@@ -585,6 +591,13 @@ function setVmode(m) {
   if (m==='daily') renderDailyVocab();
 }
 
+function renderDefsHTML(v) {
+  if (v.defs && v.defs.length) {
+    return v.defs.map(d=>`<div class="vcard-def"><span class="pos-tag">${d.pos}</span>${d.def}</div>`).join('');
+  }
+  return `<div class="vcard-def">${v.def||''}</div>`;
+}
+
 function renderVocab() {
   const el = document.getElementById('vlist');
   if (!S.vocab.length) { el.innerHTML = '<div class="empty">词汇本还是空的<br>去「今日新词」开始积累 ✨</div>'; return; }
@@ -605,7 +618,7 @@ function renderVocab() {
           ${v.phonetic||''}
           <button onclick="speak('${v.word}')" style="font-size:11px;background:none;border:1px solid var(--border);border-radius:10px;padding:1px 8px;cursor:pointer;color:var(--text2);margin-left:6px">🔊</button>
         </div>
-        <div class="vcard-def">${v.def}</div>
+        ${renderDefsHTML(v)}
         ${v.example?`<div class="vcard-ex">${v.example}${v.exZh?`<span class="vcard-exzh">${v.exZh}</span>`:''}</div>`:''}
         <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
           <button class="btn btn-sm" style="background:var(--red2);color:var(--red);font-size:11px" onclick="removeWord(${i})">删除</button>
@@ -635,8 +648,9 @@ async function renderDailyVocab() {
       `Generate exactly 25 English vocabulary words for today's lesson. Level: B1+ to B2. Focus: business, data analytics, and international trade. 
 ${existing ? `Avoid these already-known words: ${existing}` : ''}
 Return ONLY a JSON array of 25 objects, no other text:
-[{"word":"...","phonetic":"/…/","def":"中文释义(简洁)","cat":"biz|trade|data|ielts|general","example":"One business example sentence.","exZh":"例句的中文翻译"}]`,
-      2000
+[{"word":"...","phonetic":"/…/","defs":[{"pos":"n.","def":"中文释义"},{"pos":"v.","def":"中文释义"},{"pos":"adj.","def":"中文释义（如该词性存在）"}],"def":"最主要释义（向下兼容用）","cat":"biz|trade|data|ielts|general","example":"One business example sentence.","exZh":"例句的中文翻译"}]
+Rules for defs: include 2-4 most common meanings with part of speech labels (n./v./adj./adv./prep./phr.). Only include real meanings the word actually has.`,
+      2500
     );
     S.dailyVocab = { date: today(), words };
     save();
@@ -663,7 +677,7 @@ function renderDailyVocabHTML(words) {
         </div>
         <div class="vcard-body" id="dvc${i}">
           <div class="vcard-ph">${w.phonetic||''}</div>
-          <div class="vcard-def">${w.def}</div>
+          ${renderDefsHTML(w)}
           ${w.example?`<div class="vcard-ex">${w.example}${w.exZh?`<span class="vcard-exzh">${w.exZh}</span>`:''}</div>`:''}
         </div>
       </div>
@@ -707,8 +721,10 @@ async function addWordManual() {
   try {
     const w = await dsJSON(
       'You are a vocabulary assistant. Return only JSON, no markdown.',
-      `Word: "${word}". Return: {"word":"${word}","phonetic":"/…/","def":"中文释义","cat":"biz|trade|data|ielts|general","example":"Business context sentence.","exZh":"中文翻译"}`,
-      300
+      `Word: "${word}". Return JSON with this exact structure (include 2-4 real definitions with POS labels):
+{"word":"${word}","phonetic":"/…/","defs":[{"pos":"n.","def":"中文释义"},{"pos":"v.","def":"中文释义"},{"pos":"adj.","def":"中文释义（如有）"}],"def":"最主要释义","cat":"biz|trade|data|ielts|general","example":"Business context sentence.","exZh":"中文翻译"}
+Only include pos entries that are real usages of this word.`,
+      500
     );
     S.vocab.unshift({...w, starred:false, added:Date.now(), reviewCount:0, lastReview:null});
     markActive(); save(); input.value='';
@@ -722,9 +738,18 @@ async function addWordManual() {
 document.getElementById('addWordInput').addEventListener('keydown',e=>{ if(e.key==='Enter') addWordManual(); });
 
 // Flashcards
-let fcRatings = {}; // {word: 'hard'|'ok'|'easy'}
+let fcRatings = {}; // {word: 'hard'|'ok'|'easy'} — persisted daily
 const catMap2 = {biz:'商务',trade:'外贸',data:'数据',ielts:'雅思',general:'通用'};
 const catChip2 = {biz:'chip-acc',trade:'chip-grn',data:'chip-blu',ielts:'chip-amb',general:''};
+
+const FC_KEY = () => `elab_fc_${today()}`;
+
+function loadFcRatings() {
+  try { const d = localStorage.getItem(FC_KEY()); return d ? JSON.parse(d) : {}; } catch(e) { return {}; }
+}
+function saveFcRatings() {
+  try { localStorage.setItem(FC_KEY(), JSON.stringify(fcRatings)); } catch(e) {} 
+}
 
 function speak(word) {
   if (!window.speechSynthesis) return;
@@ -734,34 +759,76 @@ function speak(word) {
   window.speechSynthesis.speak(u);
 }
 
-function initFlash() {
-  flashQueue = S.vocab.filter(v=>!v.lastReview||Date.now()-v.lastReview>86400000);
-  if (!flashQueue.length && S.vocab.length) flashQueue = [...S.vocab]; // if all reviewed, review all
-  flashIdx=0; flashRevealed=false; fcRatings={};
+function initFlash(clearSaved) {
+  if (clearSaved) {
+    fcRatings = {};
+    saveFcRatings();
+  } else {
+    fcRatings = loadFcRatings(); // restore today's progress
+  }
+  const allQueue = S.vocab.filter(v=>!v.lastReview||Date.now()-v.lastReview>86400000);
+  const pool = allQueue.length ? allQueue : [...S.vocab];
+  // Only show words not yet rated today
+  flashQueue = pool.filter(v => !fcRatings[v.word]);
+  flashIdx=0; flashRevealed=false;
   renderFlash();
+}
+
+function showRatedWords(rating) {
+  const labelMap = {hard:'❌ 不会', ok:'🤔 模糊', easy:'✅ 记住了'};
+  const colorMap = {hard:'var(--red)', ok:'var(--amber)', easy:'var(--green)'};
+  const entries = Object.entries(fcRatings).filter(([w,r])=>r===rating);
+  if (!entries.length) return;
+  const words = entries.map(([w])=>{
+    const vocab = S.vocab.find(v=>v.word===w);
+    const firstDef = vocab?.defs?.[0]?.def || vocab?.def || '';
+    return `<div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px">
+      <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">${w}</span>
+      <span style="font-size:11px;color:var(--text3)">${firstDef}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('overlay').classList.add('on');
+  const popup = document.getElementById('popup');
+  popup.classList.add('on');
+  document.getElementById('popupWord').innerHTML = `<span style="color:${colorMap[rating]}">${labelMap[rating]}</span>`;
+  document.getElementById('popupPh').textContent = `今日标记了 ${entries.length} 个单词`;
+  document.getElementById('popupDef').innerHTML = `<div style="max-height:300px;overflow-y:auto">${words}</div>`;
+  document.getElementById('popupAddBtn').style.display='none';
 }
 
 function renderFlash() {
   const el = document.getElementById('vflash');
   if (!S.vocab.length) { el.innerHTML='<div class="empty">还没有词汇<br>先去「今日新词」学一批 📖</div>'; return; }
 
+  const hard = Object.values(fcRatings).filter(r=>r==='hard').length;
+  const ok = Object.values(fcRatings).filter(r=>r==='ok').length;
+  const easy = Object.values(fcRatings).filter(r=>r==='easy').length;
+  const totalRated = hard + ok + easy;
+
   if (flashIdx >= flashQueue.length) {
-    const hard = Object.values(fcRatings).filter(r=>r==='hard').length;
-    const ok = Object.values(fcRatings).filter(r=>r==='ok').length;
-    const easy = Object.values(fcRatings).filter(r=>r==='easy').length;
     el.innerHTML=`
       <div class="fc-wrap">
         <div style="width:100%;max-width:360px;text-align:center;padding:30px 0">
-          <div style="font-size:36px;margin-bottom:12px">🎉</div>
-          <div style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:6px">本轮完成！</div>
-          <div style="font-size:13px;color:var(--text3);margin-bottom:24px">复习了 ${flashQueue.length} 个单词</div>
-          <div class="fc-stats-bar">
-            <div class="fc-stat hard"><span class="n">${hard}</span>不会</div>
-            <div class="fc-stat ok"><span class="n">${ok}</span>模糊</div>
-            <div class="fc-stat easy"><span class="n">${easy}</span>记住了</div>
+          <div style="font-size:36px;margin-bottom:12px">${flashQueue.length>0?'🎉':'✅'}</div>
+          <div style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:6px">${flashQueue.length>0?'本轮完成！':'今日已全部复习！'}</div>
+          <div style="font-size:13px;color:var(--text3);margin-bottom:6px">今日累计评分 ${totalRated} 个单词</div>
+          ${totalRated>0?`
+          <div style="font-size:11px;color:var(--accent);background:var(--accent2);border-radius:8px;padding:6px 12px;margin-bottom:16px">
+            💾 记录已自动保存，刷新也不会丢失
+          </div>`:``}
+          <div class="fc-stats-bar" style="cursor:pointer">
+            <div class="fc-stat hard" onclick="showRatedWords('hard')" title="点击查看单词列表" style="cursor:${hard?'pointer':'default'}">
+              <span class="n">${hard}</span>不会${hard?'<div style="font-size:9px;margin-top:1px;opacity:.6">点击查看</div>':''}
+            </div>
+            <div class="fc-stat ok" onclick="showRatedWords('ok')" title="点击查看单词列表" style="cursor:${ok?'pointer':'default'}">
+              <span class="n">${ok}</span>模糊${ok?'<div style="font-size:9px;margin-top:1px;opacity:.6">点击查看</div>':''}
+            </div>
+            <div class="fc-stat easy" onclick="showRatedWords('easy')" title="点击查看单词列表" style="cursor:${easy?'pointer':'default'}">
+              <span class="n">${easy}</span>记住了${easy?'<div style="font-size:9px;margin-top:1px;opacity:.6">点击查看</div>':''}
+            </div>
           </div>
           ${hard>0?`<button class="btn" style="width:100%;margin-top:14px" onclick="retryHard()">再练一遍「不会」的 (${hard}词)</button>`:''}
-          <button class="btn" style="width:100%;margin-top:10px;background:var(--bg3);color:var(--text2)" onclick="initFlash()">重新开始</button>
+          <button class="btn" style="width:100%;margin-top:10px;background:var(--bg3);color:var(--text2)" onclick="initFlash(true)">重新开始（清除今日记录）</button>
         </div>
       </div>`;
     renderHeader(); return;
@@ -769,16 +836,20 @@ function renderFlash() {
 
   const v = flashQueue[flashIdx];
   const pct = Math.round(flashIdx/flashQueue.length*100);
-  const hard = Object.values(fcRatings).filter(r=>r==='hard').length;
-  const ok = Object.values(fcRatings).filter(r=>r==='ok').length;
-  const easy = Object.values(fcRatings).filter(r=>r==='easy').length;
 
   el.innerHTML=`
     <div class="fc-wrap">
+      ${totalRated>0?`<div style="width:100%;max-width:360px;font-size:11px;color:var(--accent);text-align:right;margin-bottom:4px">💾 今日已保存 ${totalRated} 词</div>`:''}
       <div class="fc-stats-bar">
-        <div class="fc-stat hard"><span class="n">${hard}</span>不会</div>
-        <div class="fc-stat ok"><span class="n">${ok}</span>模糊</div>
-        <div class="fc-stat easy"><span class="n">${easy}</span>记住了</div>
+        <div class="fc-stat hard" onclick="${hard?`showRatedWords('hard')`:'void(0)'}" style="cursor:${hard?'pointer':'default'}">
+          <span class="n">${hard}</span>不会
+        </div>
+        <div class="fc-stat ok" onclick="${ok?`showRatedWords('ok')`:'void(0)'}" style="cursor:${ok?'pointer':'default'}">
+          <span class="n">${ok}</span>模糊
+        </div>
+        <div class="fc-stat easy" onclick="${easy?`showRatedWords('easy')`:'void(0)'}" style="cursor:${easy?'pointer':'default'}">
+          <span class="n">${easy}</span>记住了
+        </div>
         <div class="fc-stat left"><span class="n">${flashQueue.length-flashIdx}</span>剩余</div>
       </div>
       <div class="fc-prog-wrap">
@@ -798,7 +869,10 @@ function renderFlash() {
         ${flashRevealed?`
           <div class="fc-back">
             <div class="fc-pos">${v.cat==='biz'?'business':v.cat==='trade'?'trade':v.cat==='data'?'data/analytics':'vocabulary'}</div>
-            <div class="fc-def-big">${v.def}</div>
+            ${v.defs && v.defs.length
+              ? v.defs.map((d,di)=>`<div class="fc-def-big" style="${di>0?'font-size:14px;font-weight:500;margin-bottom:8px;':''}"><span style="font-size:11px;background:var(--accent2);color:var(--accent);padding:1px 6px;border-radius:3px;margin-right:5px;font-family:var(--mono)">${d.pos}</span>${d.def}</div>`).join('')
+              : `<div class="fc-def-big">${v.def}</div>`
+            }
             ${v.example?`
               <div class="fc-ex-wrap">
                 <div class="fc-ex-en">${v.example}</div>
@@ -829,6 +903,7 @@ function revealFlash() { flashRevealed=true; renderFlash(); speak(flashQueue[fla
 function rateFlash(r) {
   const v=flashQueue[flashIdx];
   fcRatings[v.word]=r;
+  saveFcRatings(); // persist immediately
   const orig=S.vocab.find(w=>w.word===v.word);
   if(orig){
     orig.lastReview=Date.now();
@@ -841,9 +916,13 @@ function rateFlash(r) {
 }
 
 function retryHard() {
-  flashQueue = flashQueue.filter(v=>fcRatings[v.word]==='hard');
-  flashIdx=0; flashRevealed=false; fcRatings={};
-  renderFlash();
+  // Keep existing ratings, just re-queue the hard words
+  const hardWords = Object.entries(fcRatings).filter(([w,r])=>r==='hard').map(([w])=>w);
+  // Remove hard words from saved so they can be re-rated
+  hardWords.forEach(w => delete fcRatings[w]);
+  saveFcRatings();
+  flashQueue = S.vocab.filter(v => hardWords.includes(v.word));
+  flashIdx=0; flashRevealed=false; renderFlash();
 }
 
 // ══════════════════════════════════════════
@@ -987,33 +1066,38 @@ function closeArticle() {
 const LISTEN_RESOURCES = [
   {
     name:'BBC 6 Minute English',
-    listUrl:'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english',
-    desc:'每期6分钟，有完整文稿。进入列表页后选最新一期收听。',
-    level:'B1-B2', src:'BBC Learning English', hasScript:true
+    listUrl:'https://www.bbc.co.uk/learningenglish/features/6-minute-english',
+    desc:'每期6分钟，话题广泛，有完整文稿+音频。进入后点击任意一期收听。',
+    level:'B1-B2', src:'BBC Learning English', hasScript:true,
+    topic:'生活与职场常识'
   },
   {
     name:'British Council · B2 Listening',
     listUrl:'https://learnenglish.britishcouncil.org/skills/listening/b2-listening',
-    desc:'British Council官方B2听力，每篇有音频+文稿+在线练习题，内容稳定。',
-    level:'B2', src:'British Council', hasScript:true
+    desc:'British Council官方B2听力，每篇有音频+文稿+在线练习，内容稳定可靠。',
+    level:'B2', src:'British Council', hasScript:true,
+    topic:'商务与职场场景'
   },
   {
     name:'British Council · B1 Listening',
     listUrl:'https://learnenglish.britishcouncil.org/skills/listening/b1-listening',
-    desc:'British Council官方B1听力，适合基础巩固，有音频+文稿+题目。',
-    level:'B1', src:'British Council', hasScript:true
+    desc:'British Council官方B1听力，适合巩固基础，有音频+文稿+题目。',
+    level:'B1', src:'British Council', hasScript:true,
+    topic:'日常生活与社交'
   },
   {
     name:'English at Work (BBC)',
-    listUrl:'https://www.bbc.co.uk/learningenglish/english/features/english-at-work',
-    desc:'BBC职场英语情景剧，真实办公室对话，每集3-5分钟，有文稿。',
-    level:'B1-B2', src:'BBC Learning English', hasScript:true
+    listUrl:'https://www.bbc.co.uk/learningenglish/features/english-at-work',
+    desc:'BBC职场英语情景剧，真实办公室对话，每集3-5分钟，有文稿，非常实用。',
+    level:'B1-B2', src:'BBC Learning English', hasScript:true,
+    topic:'职场办公英语'
   },
   {
-    name:'BBC Learning English · 全部资源',
-    listUrl:'https://www.bbc.co.uk/learningenglish/english/features',
-    desc:'BBC英语学习全部栏目列表，可自由选择商务、新闻、口语等不同主题。',
-    level:'B1-C1', src:'BBC Learning English', hasScript:true
+    name:'VOA Learning English',
+    listUrl:'https://learningenglish.voanews.com/z/4065',
+    desc:'VOA慢速英语，新闻+商务内容，语速适中，文稿完整，链接稳定可靠。',
+    level:'B1-B2', src:'VOA Learning English', hasScript:true,
+    topic:'时事与商业新闻'
   },
 ];
 
@@ -1051,19 +1135,25 @@ Return ONLY JSON:
 function renderListenHTML(c) {
   const {resource:r, exercises:ex} = c;
   return `
-    <div class="sec-title">今日听力 · ${ex.topic||r.level}</div>
+    <div class="sec-title">今日听力资源 · ${r.level}</div>
     <div class="listen-card">
       <div class="listen-src">${r.src} · ${r.level}</div>
       <div class="listen-title">${r.name}</div>
       <div class="listen-desc">${r.desc}</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap">
-        <a class="listen-link" href="${r.listUrl}" target="_blank">🔗 去列表页选一期 →</a>
-        ${r.hasScript?`<span style="font-size:11px;color:var(--green);background:var(--green2);padding:2px 8px;border-radius:10px">✓ 有文稿</span>`:''}
+      <div style="background:var(--blue2);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--blue);line-height:1.7">
+        <b>📋 使用步骤：</b><br>
+        ① 点击下方链接，进入资源页面<br>
+        ② 选任意一期（推荐最新一期），点击播放收听<br>
+        ③ 收听完毕后回到这里，完成下方配套练习
       </div>
-      ${ex.tip?`<div style="margin-top:10px;font-size:12px;color:var(--amber);background:var(--amber2);padding:8px 12px;border-radius:8px">💡 ${ex.tip}</div>`:''}
+      <a class="btn" href="${r.listUrl}" target="_blank" style="display:flex;margin-top:12px;text-decoration:none;justify-content:center">
+        🎧 打开 ${r.name} →
+      </a>
+      ${r.hasScript?`<div style="margin-top:8px;font-size:11px;color:var(--green);text-align:center">✓ 此资源有完整文稿，可配合阅读使用</div>`:''}
+      ${ex.tip?`<div style="margin-top:10px;font-size:12px;color:var(--amber);background:var(--amber2);padding:8px 12px;border-radius:8px">💡 今日收听建议：${ex.tip}</div>`:''}
     </div>
 
-    <div class="sec-title">听前预习词汇</div>
+    <div class="sec-title">① 听前预习词汇 <span style="font-weight:400;font-family:var(--sans);text-transform:none;letter-spacing:0;color:var(--text3);font-size:10px">— 先记住这些词，听时更容易抓住内容</span></div>
     <div class="card">
       ${(ex.keyWords||[]).map(w=>`
         <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
@@ -1075,23 +1165,23 @@ function renderListenHTML(c) {
       `).join('')}
     </div>
 
-    <div class="sec-title">跟读练习 (Shadowing)</div>
+    <div class="sec-title">② 跟读练习 (Shadowing) <span style="font-weight:400;font-family:var(--sans);text-transform:none;letter-spacing:0;color:var(--text3);font-size:10px">— 听完后跟读，模仿节奏语气</span></div>
     <div class="card">
-      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">大声朗读，模仿节奏和语气，反复直到流畅</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">大声朗读以下句子，模仿自然语速和语调，反复练习直到流畅</div>
       <div class="shadowing-text">${ex.shadowText}</div>
       <button onclick="speak(document.querySelector('.shadowing-text').textContent)" style="margin-top:10px;font-size:12px;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;cursor:pointer;color:var(--text2);width:100%">🔊 朗读示范</button>
     </div>
 
-    <div class="sec-title">听后思考</div>
+    <div class="sec-title">③ 听后思考 <span style="font-weight:400;font-family:var(--sans);text-transform:none;letter-spacing:0;color:var(--text3);font-size:10px">— 听完后用中文或英文回答</span></div>
     <div class="card">
       ${(ex.focusQuestions||[]).map((q,i)=>`
         <div style="padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2);line-height:1.5">
           ${i+1}. ${q}
         </div>
       `).join('')}
-      <div style="margin-top:10px;font-size:11px;color:var(--text3)">听完后去「日志」记录收获和生词</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3)">听完后去「日志」记录生词和收获</div>
     </div>
-    <button class="btn" style="width:100%;margin-top:4px" onclick="gotoTab('log')">去记录今日听力 →</button>
+    <button class="btn" style="width:100%;margin-top:4px" onclick="gotoTab('log')">📝 去记录今日听力 →</button>
   `;
 }
 
@@ -1268,6 +1358,7 @@ function showPopup(word, ph, def) {
 function closePopup() {
   document.getElementById('popup').classList.remove('on');
   document.getElementById('overlay').classList.remove('on');
+  document.getElementById('popupAddBtn').style.display='inline-flex'; // reset for next use
 }
 function addFromPopup() {
   const {word, ph, def} = popupData;
