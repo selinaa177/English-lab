@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0014)about:internet -->
-<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>English Lab</title>
 <style>
@@ -121,19 +121,42 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .vcard-ex{font-family:var(--serif);font-size:13px;color:var(--text2);font-style:italic;padding:8px 11px;background:var(--bg3);border-radius:6px;line-height:1.6}
 .vcard-exzh{font-style:normal;font-family:var(--sans);font-size:11px;color:var(--text3);margin-top:4px;display:block}
 
-/* Flashcard */
-.fc-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0}
-.fc-prog{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:12px}
-.fc{width:100%;max-width:360px;min-height:220px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;cursor:pointer;transition:transform .15s;user-select:none;text-align:center}
-.fc:active{transform:scale(.98)}
-.fc-word{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--text)}
-.fc-hint{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:14px}
-.fc-ph{font-family:var(--mono);font-size:12px;color:var(--text3);margin-top:10px}
-.fc-def{font-size:15px;color:var(--text2);margin-top:8px;line-height:1.6}
-.fc-ex{font-family:var(--serif);font-size:13px;color:var(--text3);font-style:italic;margin-top:12px;line-height:1.5}
-.fc-actions{display:flex;gap:10px;margin-top:18px;width:100%;max-width:360px}
-.fc-btn{flex:1;padding:12px 8px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);font-size:12px;font-family:var(--sans);cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+/* Flashcard — 百词斩风格 */
+.fc-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 0}
+.fc-stats-bar{display:flex;gap:8px;margin-bottom:12px;width:100%;max-width:360px}
+.fc-stat{flex:1;text-align:center;padding:7px 4px;border-radius:8px;font-size:11px;font-family:var(--mono)}
+.fc-stat .n{font-size:18px;font-weight:600;display:block;line-height:1.2}
+.fc-stat.hard{background:var(--red2);color:var(--red)}
+.fc-stat.ok{background:var(--amber2);color:var(--amber)}
+.fc-stat.easy{background:var(--green2);color:var(--green)}
+.fc-stat.left{background:var(--bg3);color:var(--text3)}
+.fc-prog-wrap{width:100%;max-width:360px;margin-bottom:14px}
+.fc-prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.fc-prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+.fc-prog-label{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px;text-align:right}
+.fc{width:100%;max-width:360px;background:var(--bg2);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow2);overflow:hidden;cursor:pointer;transition:transform .15s;user-select:none}
+.fc:active{transform:scale(.99)}
+.fc-front{padding:36px 24px 28px;text-align:center;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.fc-cat-tag{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;padding:2px 10px;border-radius:10px;margin-bottom:16px;display:inline-block}
+.fc-word{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--text);line-height:1.2}
+.fc-ph-row{display:flex;align-items:center;gap:10px;margin-top:10px;justify-content:center}
+.fc-ph{font-family:var(--mono);font-size:13px;color:var(--text3)}
+.fc-speak{background:none;border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s}
+.fc-speak:active{background:var(--bg3)}
+.fc-hint{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:16px;padding:6px 14px;background:var(--bg3);border-radius:20px}
+.fc-back{border-top:2px solid var(--border);padding:20px 24px 24px;background:var(--bg)}
+.fc-pos{font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.fc-def-big{font-size:17px;font-weight:600;color:var(--text);margin-bottom:12px;line-height:1.4}
+.fc-ex-wrap{background:var(--bg2);border-radius:10px;padding:12px 14px;border:1px solid var(--border)}
+.fc-ex-en{font-family:var(--serif);font-size:14px;color:var(--text);font-style:italic;line-height:1.6;margin-bottom:4px}
+.fc-ex-zh{font-size:12px;color:var(--text3);line-height:1.5}
+.fc-actions{display:flex;gap:8px;margin-top:14px;width:100%;max-width:360px}
+.fc-btn{flex:1;padding:14px 6px;border:none;border-radius:12px;font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:3px}
 .fc-btn:active{transform:scale(.96)}
+.fc-btn .fc-btn-icon{font-size:18px}
+.fc-btn.hard{background:var(--red2);color:var(--red)}
+.fc-btn.ok{background:var(--amber2);color:var(--amber)}
+.fc-btn.easy{background:var(--green2);color:var(--green)}
 
 /* ── Reading ── */
 .art-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer}
@@ -206,7 +229,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .test-opt.correct{border-color:var(--green);background:var(--green2);color:var(--green)}
 .test-opt.wrong{border-color:var(--red);background:var(--red2);color:var(--red)}
 </style>
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 <div class="app">
@@ -217,7 +239,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
         <div class="hdr-level" id="hdrLevel">B1+ · 商务英语</div>
       </div>
       <div class="hdr-right">
-        <div class="hdr-streak" id="hdrStreak">1</div>
+        <div class="hdr-streak" id="hdrStreak">0</div>
         <div class="hdr-slabel">day streak</div>
       </div>
     </div>
@@ -230,24 +252,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
   </div>
 
   <div class="nav">
-    <button class="nav-btn on" onclick="gotoTab(&#39;dash&#39;)">今日</button>
-    <button class="nav-btn" onclick="gotoTab(&#39;vocab&#39;)">词汇</button>
-    <button class="nav-btn" onclick="gotoTab(&#39;read&#39;)">阅读</button>
-    <button class="nav-btn" onclick="gotoTab(&#39;listen&#39;)">听力</button>
-    <button class="nav-btn" onclick="gotoTab(&#39;write&#39;)">写作</button>
-    <button class="nav-btn" onclick="gotoTab(&#39;log&#39;)">日志</button>
+    <button class="nav-btn on" onclick="gotoTab('dash')">今日</button>
+    <button class="nav-btn" onclick="gotoTab('vocab')">词汇</button>
+    <button class="nav-btn" onclick="gotoTab('read')">阅读</button>
+    <button class="nav-btn" onclick="gotoTab('listen')">听力</button>
+    <button class="nav-btn" onclick="gotoTab('write')">写作</button>
+    <button class="nav-btn" onclick="gotoTab('log')">日志</button>
   </div>
 
   <div class="main">
 
     <!-- ════ SETUP ════ -->
-    <div id="view-setup" class="view">
+    <div id="view-setup" class="view on">
       <div class="setup-wrap">
         <div class="setup-icon">📚</div>
         <div class="setup-title">English Lab</div>
         <div class="setup-desc">你的 AI 驱动英语学习工具<br>请先填入 DeepSeek API Key 开始</div>
         <div class="key-input-wrap">
-          <input class="key-input" id="keyInput" type="password" placeholder="sk-xxxxxxxxxxxxxxxx">
+          <input class="key-input" id="keyInput" type="password" placeholder="sk-xxxxxxxxxxxxxxxx" />
         </div>
         <button class="btn" onclick="saveKey()">开始使用 →</button>
         <div style="margin-top:12px;font-size:11px;color:var(--text3)">Key 仅存在本地，不会上传</div>
@@ -255,7 +277,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
     </div>
 
     <!-- ════ DASH ════ -->
-    <div id="view-dash" class="view on">
+    <div id="view-dash" class="view">
       <div class="dash-grid">
         <div class="dash-card">
           <div class="dash-label">总词汇量</div>
@@ -271,65 +293,29 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
         </div>
         <div class="dash-card">
           <div class="dash-label">下次测验</div>
-          <div class="dash-val" id="dNextTest" style="font-size:14px">今天!</div>
+          <div class="dash-val" id="dNextTest" style="font-size:14px">—</div>
         </div>
       </div>
       <div class="sec-title">今日任务</div>
-      <div id="todayList">
-    <div class="today-item fade-up" style="animation-delay:0s">
-      <div class="today-ico" style="background:var(--accent2)">📝</div>
-      <div style="flex:1">
-        <div class="today-label">今日新词 (25词)</div>
-        <div class="today-hint">25个新词 · AI生成 · 含音标例句</div>
-      </div>
-      <button class="today-cta" onclick="gotoTabWithMode(&#39;vocab&#39;,&#39;daily&#39;)">GO →</button>
-    </div>
-  
-    <div class="today-item fade-up" style="animation-delay:0.05s">
-      <div class="today-ico" style="background:var(--blue2)">📖</div>
-      <div style="flex:1">
-        <div class="today-label">阅读练习</div>
-        <div class="today-hint">商务文章 · 生词高亮 · 理解问答</div>
-      </div>
-      <button class="today-cta" onclick="gotoTabWithMode(&#39;read&#39;,&#39;&#39;)">GO →</button>
-    </div>
-  
-    <div class="today-item fade-up" style="animation-delay:0.1s">
-      <div class="today-ico" style="background:rgba(46,125,82,.08)">🎧</div>
-      <div style="flex:1">
-        <div class="today-label">听力任务</div>
-        <div class="today-hint">BBC/播客资源 + AI配套练习</div>
-      </div>
-      <button class="today-cta" onclick="gotoTabWithMode(&#39;listen&#39;,&#39;&#39;)">GO →</button>
-    </div>
-  
-    <div class="today-item fade-up" style="animation-delay:0.15000000000000002s">
-      <div class="today-ico" style="background:var(--amber2)">✍️</div>
-      <div style="flex:1">
-        <div class="today-label">写作练习 · 2天后</div>
-        <div class="today-hint">周三 + 周六 · 每次1篇 · AI批改</div>
-      </div>
-      <button class="today-cta" onclick="gotoTabWithMode(&#39;write&#39;,&#39;&#39;)">GO →</button>
-    </div>
-  </div>
+      <div id="todayList"></div>
     </div>
 
     <!-- ════ VOCAB ════ -->
     <div id="view-vocab" class="view">
       <div class="filter-row">
-        <button class="fchip on" onclick="setVmode(&#39;list&#39;)">词汇本</button>
-        <button class="fchip" onclick="setVmode(&#39;flash&#39;)">闪卡</button>
-        <button class="fchip" onclick="setVmode(&#39;daily&#39;)">今日新词</button>
-        <button class="fchip" onclick="setVmode(&#39;add&#39;)">手动添加</button>
+        <button class="fchip on" onclick="setVmode('list')">词汇本</button>
+        <button class="fchip" onclick="setVmode('flash')">闪卡</button>
+        <button class="fchip" onclick="setVmode('daily')">今日新词</button>
+        <button class="fchip" onclick="setVmode('add')">手动添加</button>
       </div>
-      <div id="vlist"><div class="empty">词汇本还是空的<br>去「今日新词」开始积累 ✨</div></div>
+      <div id="vlist"></div>
       <div id="vflash" style="display:none"></div>
       <div id="vdaily" style="display:none"></div>
       <div id="vadd" style="display:none">
         <div class="card">
           <div style="margin-bottom:10px;font-size:13px;color:var(--text2)">输入单词，AI 自动补全释义和例句</div>
           <div style="display:flex;gap:8px;margin-bottom:8px">
-            <input class="input" id="addWordInput" placeholder="输入英文单词..." style="flex:1">
+            <input class="input" id="addWordInput" placeholder="输入英文单词..." style="flex:1"/>
             <button class="btn" onclick="addWordManual()">添加</button>
           </div>
           <div id="addWordMsg"></div>
@@ -345,86 +331,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 
     <!-- ════ LISTEN ════ -->
     <div id="view-listen" class="view">
-      <div id="listenContent">
-    <div class="sec-title">今日听力资源</div>
-    <div class="listen-card">
-      <div class="listen-src">B1-B2</div>
-      <div class="listen-title">BBC 6 Minute English</div>
-      <div class="listen-desc">每期6分钟，有文稿，适合B1-B2</div>
-      <a class="listen-link" href="https://www.bbc.co.uk/learningenglish/english/features/6-minute-english" target="_blank">🔗 去收听 →</a>
-    </div>
-    <div class="sec-title">跟读练习 (Shadowing)</div>
-    <div class="card">
-      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">朗读下面这段文字，模仿节奏和语气，可录音回听</div>
-      <div class="shadowing-text">So, we're talking about the rise of remote work, and how it's really changed the way we do business. I mean, it's not just about working from home anymore; it's about building a whole new culture around flexibility and trust. Companies that get this right are seeing a huge boost in productivity and employee satisfaction.</div>
-    </div>
-    <div class="sec-title">听前预习词汇</div>
-    <div class="card">
-      
-        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">remote work</span>
-          <span style="font-size:12px;color:var(--text3)">远程工作</span>
-        </div>
-      
-        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">flexibility</span>
-          <span style="font-size:12px;color:var(--text3)">灵活性</span>
-        </div>
-      
-        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">productivity</span>
-          <span style="font-size:12px;color:var(--text3)">生产力</span>
-        </div>
-      
-        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">employee satisfaction</span>
-          <span style="font-size:12px;color:var(--text3)">员工满意度</span>
-        </div>
-      
-        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">culture</span>
-          <span style="font-size:12px;color:var(--text3)">文化</span>
-        </div>
-      
-    </div>
-    <div class="sec-title">听后思考</div>
-    <div class="card">
-      
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
-          1. 根据对话，远程工作如何改变了商业运作方式？
-        </div>
-      
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
-          2. 公司如何通过远程工作提高员工满意度？
-        </div>
-      
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
-          3. 对话中提到的‘灵活性’和‘信任’对远程工作有什么重要性？
-        </div>
-      
-      <div style="margin-top:10px;font-size:11px;color:var(--text3)">听完后去「日志」记录你的收获</div>
-    </div>
-    <button class="btn" style="width:100%;margin-top:4px" onclick="gotoTab(&#39;log&#39;)">去记录今日听力 →</button>
-  </div>
+      <div id="listenContent"></div>
     </div>
 
     <!-- ════ WRITE ════ -->
     <div id="view-write" class="view">
-      <div id="writePrompts">
-      <div class="card" style="text-align:center;padding:32px 20px">
-        <div style="font-size:32px;margin-bottom:12px">☕</div>
-        <div style="font-family:var(--serif);font-size:17px;font-weight:600;color:var(--text);margin-bottom:8px">今天不用写作</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.7">写作日是<b>周三 + 周六</b><br>距离下次写作还有 <b style="color:var(--accent)">2天</b>（周三）</div>
-        <div style="margin-top:16px;font-size:12px;color:var(--text3)">今天可以多复习词汇或做阅读 👌</div>
-      </div>
-      
-    </div>
+      <div id="writePrompts"></div>
       <div id="writeEditor" style="display:none">
         <button class="reader-back" onclick="backToPrompts()">← 返回</button>
         <div id="writeCurrentPrompt"></div>
         <textarea class="textarea" id="writeInput" placeholder="Start writing in English..." style="min-height:160px;margin-bottom:10px"></textarea>
         <div style="display:flex;justify-content:flex-end;gap:8px">
-          <button class="btn btn-ghost btn-sm" onclick="document.getElementById(&#39;writeInput&#39;).value=&#39;&#39;;document.getElementById(&#39;writeFeedback&#39;).style.display=&#39;none&#39;">清空</button>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('writeInput').value='';document.getElementById('writeFeedback').style.display='none'">清空</button>
           <button class="btn btn-sm" id="submitWriteBtn" onclick="submitWriting()">AI 批改</button>
         </div>
         <div id="writeFeedback" style="display:none;margin-top:14px"></div>
@@ -440,11 +358,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
             <option value="">类型...</option>
             <option>阅读</option><option>词汇</option><option>听力</option><option>写作</option><option>口语</option><option>外贸</option>
           </select>
-          <input class="input" id="logMins" type="number" placeholder="分钟" style="width:72px">
+          <input class="input" id="logMins" type="number" placeholder="分钟" style="width:72px"/>
           <button class="btn" onclick="addLog()">记录</button>
         </div>
       </div>
-      <div id="logList"><div class="empty">还没有学习记录<br>今天开始吧 📝</div></div>
+      <div id="logList"></div>
     </div>
 
     <!-- ════ TEST ════ -->
@@ -671,6 +589,7 @@ function renderVocab() {
   const el = document.getElementById('vlist');
   if (!S.vocab.length) { el.innerHTML = '<div class="empty">词汇本还是空的<br>去「今日新词」开始积累 ✨</div>'; return; }
   const catMap = {biz:'商务',trade:'外贸',data:'数据',general:'通用',ielts:'雅思'};
+  const ratingBadge = {easy:'<span style="font-size:10px;color:var(--green)">✅ 掌握</span>', ok:'<span style="font-size:10px;color:var(--amber)">🤔 模糊</span>', hard:'<span style="font-size:10px;color:var(--red)">❌ 待学</span>'};
   el.innerHTML = S.vocab.map((v,i)=>`
     <div class="vcard">
       <div class="vcard-row" onclick="toggleVcard(${i})">
@@ -678,14 +597,19 @@ function renderVocab() {
         <span class="chip chip-${v.cat==='biz'?'acc':v.cat==='trade'?'grn':v.cat==='data'?'blu':v.cat==='ielts'?'amb':''}">
           ${catMap[v.cat]||v.cat}
         </span>
+        ${v.lastRating ? (ratingBadge[v.lastRating]||'') : ''}
         <div class="vcard-star ${v.starred?'on':''}" onclick="event.stopPropagation();toggleStar(${i})">★</div>
       </div>
       <div class="vcard-body" id="vb${i}">
-        <div class="vcard-ph">${v.phonetic||''}</div>
+        <div class="vcard-ph">
+          ${v.phonetic||''}
+          <button onclick="speak('${v.word}')" style="font-size:11px;background:none;border:1px solid var(--border);border-radius:10px;padding:1px 8px;cursor:pointer;color:var(--text2);margin-left:6px">🔊</button>
+        </div>
         <div class="vcard-def">${v.def}</div>
         ${v.example?`<div class="vcard-ex">${v.example}${v.exZh?`<span class="vcard-exzh">${v.exZh}</span>`:''}</div>`:''}
-        <div style="margin-top:10px">
+        <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
           <button class="btn btn-sm" style="background:var(--red2);color:var(--red);font-size:11px" onclick="removeWord(${i})">删除</button>
+          ${v.reviewCount?`<span style="font-size:11px;color:var(--text3)">复习${v.reviewCount}次</span>`:''}
         </div>
       </div>
     </div>
@@ -798,42 +722,128 @@ async function addWordManual() {
 document.getElementById('addWordInput').addEventListener('keydown',e=>{ if(e.key==='Enter') addWordManual(); });
 
 // Flashcards
+let fcRatings = {}; // {word: 'hard'|'ok'|'easy'}
+const catMap2 = {biz:'商务',trade:'外贸',data:'数据',ielts:'雅思',general:'通用'};
+const catChip2 = {biz:'chip-acc',trade:'chip-grn',data:'chip-blu',ielts:'chip-amb',general:''};
+
+function speak(word) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(word);
+  u.lang = 'en-US'; u.rate = 0.85;
+  window.speechSynthesis.speak(u);
+}
+
 function initFlash() {
   flashQueue = S.vocab.filter(v=>!v.lastReview||Date.now()-v.lastReview>86400000);
-  flashIdx=0; flashRevealed=false;
+  if (!flashQueue.length && S.vocab.length) flashQueue = [...S.vocab]; // if all reviewed, review all
+  flashIdx=0; flashRevealed=false; fcRatings={};
   renderFlash();
 }
+
 function renderFlash() {
   const el = document.getElementById('vflash');
-  if (!S.vocab.length) { el.innerHTML='<div class="empty">还没有词汇<br>先去「今日新词」学一批</div>'; return; }
-  if (!flashQueue.length) { el.innerHTML='<div class="empty">🎉 今日复习完成！<br>所有单词均已复习</div>'; return; }
-  if (flashIdx>=flashQueue.length) { el.innerHTML='<div class="empty">🎉 本轮完成！<br>复习了 '+flashQueue.length+' 个单词</div>'; renderHeader(); return; }
+  if (!S.vocab.length) { el.innerHTML='<div class="empty">还没有词汇<br>先去「今日新词」学一批 📖</div>'; return; }
+
+  if (flashIdx >= flashQueue.length) {
+    const hard = Object.values(fcRatings).filter(r=>r==='hard').length;
+    const ok = Object.values(fcRatings).filter(r=>r==='ok').length;
+    const easy = Object.values(fcRatings).filter(r=>r==='easy').length;
+    el.innerHTML=`
+      <div class="fc-wrap">
+        <div style="width:100%;max-width:360px;text-align:center;padding:30px 0">
+          <div style="font-size:36px;margin-bottom:12px">🎉</div>
+          <div style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:6px">本轮完成！</div>
+          <div style="font-size:13px;color:var(--text3);margin-bottom:24px">复习了 ${flashQueue.length} 个单词</div>
+          <div class="fc-stats-bar">
+            <div class="fc-stat hard"><span class="n">${hard}</span>不会</div>
+            <div class="fc-stat ok"><span class="n">${ok}</span>模糊</div>
+            <div class="fc-stat easy"><span class="n">${easy}</span>记住了</div>
+          </div>
+          ${hard>0?`<button class="btn" style="width:100%;margin-top:14px" onclick="retryHard()">再练一遍「不会」的 (${hard}词)</button>`:''}
+          <button class="btn" style="width:100%;margin-top:10px;background:var(--bg3);color:var(--text2)" onclick="initFlash()">重新开始</button>
+        </div>
+      </div>`;
+    renderHeader(); return;
+  }
+
   const v = flashQueue[flashIdx];
+  const pct = Math.round(flashIdx/flashQueue.length*100);
+  const hard = Object.values(fcRatings).filter(r=>r==='hard').length;
+  const ok = Object.values(fcRatings).filter(r=>r==='ok').length;
+  const easy = Object.values(fcRatings).filter(r=>r==='easy').length;
+
   el.innerHTML=`
     <div class="fc-wrap">
-      <div class="fc-prog">${flashIdx+1} / ${flashQueue.length}</div>
+      <div class="fc-stats-bar">
+        <div class="fc-stat hard"><span class="n">${hard}</span>不会</div>
+        <div class="fc-stat ok"><span class="n">${ok}</span>模糊</div>
+        <div class="fc-stat easy"><span class="n">${easy}</span>记住了</div>
+        <div class="fc-stat left"><span class="n">${flashQueue.length-flashIdx}</span>剩余</div>
+      </div>
+      <div class="fc-prog-wrap">
+        <div class="fc-prog-bar"><div class="fc-prog-fill" style="width:${pct}%"></div></div>
+        <div class="fc-prog-label">${flashIdx}/${flashQueue.length}</div>
+      </div>
       <div class="fc" onclick="revealFlash()">
-        <div class="fc-word">${v.word}</div>
-        ${!flashRevealed?`<div class="fc-hint">点击查看释义</div>`:
-          `<div class="fc-ph">${v.phonetic||''}</div>
-           <div class="fc-def">${v.def}</div>
-           ${v.example?`<div class="fc-ex">${v.example}</div>`:''}`}
+        <div class="fc-front">
+          <span class="chip ${catChip2[v.cat]||''} fc-cat-tag">${catMap2[v.cat]||v.cat}</span>
+          <div class="fc-word">${v.word}</div>
+          <div class="fc-ph-row">
+            ${v.phonetic?`<span class="fc-ph">${v.phonetic}</span>`:''}
+            <button class="fc-speak" onclick="event.stopPropagation();speak('${v.word}')">🔊 朗读</button>
+          </div>
+          ${!flashRevealed?`<div class="fc-hint">点击卡片查看释义</div>`:''}
+        </div>
+        ${flashRevealed?`
+          <div class="fc-back">
+            <div class="fc-pos">${v.cat==='biz'?'business':v.cat==='trade'?'trade':v.cat==='data'?'data/analytics':'vocabulary'}</div>
+            <div class="fc-def-big">${v.def}</div>
+            ${v.example?`
+              <div class="fc-ex-wrap">
+                <div class="fc-ex-en">${v.example}</div>
+                ${v.exZh?`<div class="fc-ex-zh">${v.exZh}</div>`:''}
+              </div>`:''
+            }
+            ${v.reviewCount>=3?`<div class="fc-mem">📌 已复习 ${v.reviewCount} 次${v.mastered?' · ✅ 已掌握':''}</div>`:''}
+          </div>`:''
+        }
       </div>
       ${flashRevealed?`
         <div class="fc-actions">
-          <button class="fc-btn" style="color:var(--red)" onclick="rateFlash('hard')">😣 不会</button>
-          <button class="fc-btn" style="color:var(--amber)" onclick="rateFlash('ok')">🤔 模糊</button>
-          <button class="fc-btn" style="color:var(--green)" onclick="rateFlash('easy')">😊 记住了</button>
-        </div>`:
-        ''}
+          <button class="fc-btn hard" onclick="rateFlash('hard')">
+            <span class="fc-btn-icon">😣</span>不会
+          </button>
+          <button class="fc-btn ok" onclick="rateFlash('ok')">
+            <span class="fc-btn-icon">🤔</span>模糊
+          </button>
+          <button class="fc-btn easy" onclick="rateFlash('easy')">
+            <span class="fc-btn-icon">😊</span>记住了
+          </button>
+        </div>`:''}
     </div>`;
 }
-function revealFlash(){flashRevealed=true;renderFlash();}
-function rateFlash(r){
+
+function revealFlash() { flashRevealed=true; renderFlash(); speak(flashQueue[flashIdx]?.word||''); }
+
+function rateFlash(r) {
   const v=flashQueue[flashIdx];
+  fcRatings[v.word]=r;
   const orig=S.vocab.find(w=>w.word===v.word);
-  if(orig){orig.lastReview=Date.now();orig.reviewCount=(orig.reviewCount||0)+1;if(r==='easy')orig.mastered=true;}
+  if(orig){
+    orig.lastReview=Date.now();
+    orig.reviewCount=(orig.reviewCount||0)+1;
+    orig.lastRating=r;
+    if(r==='easy') orig.mastered=true;
+    else if(r==='hard') orig.mastered=false;
+  }
   save(); flashIdx++; flashRevealed=false; renderFlash();
+}
+
+function retryHard() {
+  flashQueue = flashQueue.filter(v=>fcRatings[v.word]==='hard');
+  flashIdx=0; flashRevealed=false; fcRatings={};
+  renderFlash();
 }
 
 // ══════════════════════════════════════════
@@ -890,15 +900,21 @@ function renderArticleCard(a) {
 }
 
 let qAnswers = {};
+
 function openArticle() {
   const a = S.dailyReading?.article;
   if (!a) return;
-  qAnswers = {};
+  // Load saved answers for today
+  try {
+    const saved = localStorage.getItem('elab_qanswers');
+    const parsed = saved ? JSON.parse(saved) : {};
+    qAnswers = (parsed.date === today()) ? parsed.answers : {};
+  } catch(e) { qAnswers = {}; }
+
   document.getElementById('readList').style.display='none';
   const el = document.getElementById('readArticle');
   el.style.display='block';
 
-  // Highlight keywords
   const kwMap = {};
   (a.keywords||[]).forEach(k=>{ kwMap[k.word.toLowerCase()]={...k}; });
 
@@ -936,11 +952,24 @@ function openArticle() {
       `).join('')}
     </div>
   `;
+
+  // Restore saved answers
+  Object.entries(qAnswers).forEach(([qi, data]) => {
+    const {chosen, correct} = data;
+    const chosenEl = document.getElementById(`qo${qi}-${chosen}`);
+    const correctEl = document.getElementById(`qo${qi}-${correct}`);
+    if (chosenEl) chosenEl.classList.add(chosen==correct ? 'correct' : 'wrong');
+    if (correctEl && chosen!=correct) correctEl.classList.add('correct');
+  });
 }
 
 function answerQ(qi, oi, correct) {
-  if (qAnswers[qi]!==undefined) return;
-  qAnswers[qi] = oi;
+  if (qAnswers[qi] !== undefined) return;
+  qAnswers[qi] = {chosen: oi, correct};
+  // Save to localStorage
+  try {
+    localStorage.setItem('elab_qanswers', JSON.stringify({date: today(), answers: qAnswers}));
+  } catch(e) {}
   const selected = document.getElementById(`qo${qi}-${oi}`);
   const correctEl = document.getElementById(`qo${qi}-${correct}`);
   if (oi===correct) { selected.classList.add('correct'); }
@@ -956,10 +985,36 @@ function closeArticle() {
 // LISTENING
 // ══════════════════════════════════════════
 const LISTEN_RESOURCES = [
-  {name:'BBC 6 Minute English', url:'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english', desc:'每期6分钟，有文稿，适合B1-B2', level:'B1-B2'},
-  {name:'BBC Business Daily', url:'https://www.bbc.co.uk/programmes/p002vsmz/episodes/downloads', desc:'真实商务新闻，无文稿，挑战更高', level:'B2+'},
-  {name:'All Ears English', url:'https://www.allearsenglish.com/', desc:'美式日常英语，口语化，适合生活商务场景', level:'B1-B2'},
-  {name:'English at Work (BBC)', url:'https://www.bbc.co.uk/learningenglish/english/features/english-at-work', desc:'专门的职场英语情景剧，超实用', level:'B1'},
+  {
+    name:'BBC 6 Minute English',
+    listUrl:'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english',
+    desc:'每期6分钟，有完整文稿。进入列表页后选最新一期收听。',
+    level:'B1-B2', src:'BBC Learning English', hasScript:true
+  },
+  {
+    name:'British Council · B2 Listening',
+    listUrl:'https://learnenglish.britishcouncil.org/skills/listening/b2-listening',
+    desc:'British Council官方B2听力，每篇有音频+文稿+在线练习题，内容稳定。',
+    level:'B2', src:'British Council', hasScript:true
+  },
+  {
+    name:'British Council · B1 Listening',
+    listUrl:'https://learnenglish.britishcouncil.org/skills/listening/b1-listening',
+    desc:'British Council官方B1听力，适合基础巩固，有音频+文稿+题目。',
+    level:'B1', src:'British Council', hasScript:true
+  },
+  {
+    name:'English at Work (BBC)',
+    listUrl:'https://www.bbc.co.uk/learningenglish/english/features/english-at-work',
+    desc:'BBC职场英语情景剧，真实办公室对话，每集3-5分钟，有文稿。',
+    level:'B1-B2', src:'BBC Learning English', hasScript:true
+  },
+  {
+    name:'BBC Learning English · 全部资源',
+    listUrl:'https://www.bbc.co.uk/learningenglish/english/features',
+    desc:'BBC英语学习全部栏目列表，可自由选择商务、新闻、口语等不同主题。',
+    level:'B1-C1', src:'BBC Learning English', hasScript:true
+  },
 ];
 
 async function renderListenContent() {
@@ -970,21 +1025,19 @@ async function renderListenContent() {
   }
   el.innerHTML = `<div class="sec-title">今日听力</div><div class="art-generating"><span class="spinner spinner-dark"></span><br><br>AI 正在生成配套练习...</div>`;
   try {
-    const res = LISTEN_RESOURCES[Math.floor(Date.now()/86400000)%LISTEN_RESOURCES.length];
+    const res = LISTEN_RESOURCES[Math.floor(Date.now()/86400000) % LISTEN_RESOURCES.length];
     const exercises = await dsJSON(
-      'You are an English listening exercise creator for B1-B2 Chinese learners.',
-      `Create listening exercises for "${res.name}". 
-Generate:
-1. A shadowing practice text (3-4 sentences in business English, natural spoken style)
-2. 5 key vocabulary words likely to appear in this podcast
-3. 3 listening focus questions (open-ended, in Chinese)
+      'You are an English listening exercise creator for B1-B2 Chinese learners. Focus on practical business English.',
+      `Create listening exercises themed around "${res.name}" (${res.level} level business English).
 Return ONLY JSON:
 {
-  "shadowText": "Text for shadowing practice...",
-  "keyWords": [{"word":"...","def":"中文释义"}],
-  "focusQuestions": ["问题1...","问题2...","问题3..."]
+  "topic": "Today's listening theme in Chinese (6-10 chars)",
+  "shadowText": "3-4 sentences of natural spoken business English for shadowing. Should sound like real podcast speech, not textbook.",
+  "keyWords": [{"word":"...","phonetic":"/…/","def":"中文释义"}],
+  "focusQuestions": ["听力重点问题1（中文）","问题2","问题3"],
+  "tip": "一句收听建议（中文，比如重点听什么、注意什么语调等）"
 }`,
-      600
+      700
     );
     const content = { resource: res, exercises };
     S.dailyListening = { date: today(), content };
@@ -998,35 +1051,45 @@ Return ONLY JSON:
 function renderListenHTML(c) {
   const {resource:r, exercises:ex} = c;
   return `
-    <div class="sec-title">今日听力资源</div>
+    <div class="sec-title">今日听力 · ${ex.topic||r.level}</div>
     <div class="listen-card">
-      <div class="listen-src">${r.level}</div>
+      <div class="listen-src">${r.src} · ${r.level}</div>
       <div class="listen-title">${r.name}</div>
       <div class="listen-desc">${r.desc}</div>
-      <a class="listen-link" href="${r.url}" target="_blank">🔗 去收听 →</a>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <a class="listen-link" href="${r.listUrl}" target="_blank">🔗 去列表页选一期 →</a>
+        ${r.hasScript?`<span style="font-size:11px;color:var(--green);background:var(--green2);padding:2px 8px;border-radius:10px">✓ 有文稿</span>`:''}
+      </div>
+      ${ex.tip?`<div style="margin-top:10px;font-size:12px;color:var(--amber);background:var(--amber2);padding:8px 12px;border-radius:8px">💡 ${ex.tip}</div>`:''}
     </div>
-    <div class="sec-title">跟读练习 (Shadowing)</div>
-    <div class="card">
-      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">朗读下面这段文字，模仿节奏和语气，可录音回听</div>
-      <div class="shadowing-text">${ex.shadowText}</div>
-    </div>
+
     <div class="sec-title">听前预习词汇</div>
     <div class="card">
       ${(ex.keyWords||[]).map(w=>`
-        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
           <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">${w.word}</span>
+          ${w.phonetic?`<span style="font-family:var(--mono);font-size:11px;color:var(--text3)">${w.phonetic}</span>`:''}
+          <button onclick="speak('${w.word}')" style="font-size:11px;background:none;border:1px solid var(--border);border-radius:10px;padding:1px 8px;cursor:pointer;color:var(--text2)">🔊</button>
           <span style="font-size:12px;color:var(--text3)">${w.def}</span>
         </div>
       `).join('')}
     </div>
+
+    <div class="sec-title">跟读练习 (Shadowing)</div>
+    <div class="card">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">大声朗读，模仿节奏和语气，反复直到流畅</div>
+      <div class="shadowing-text">${ex.shadowText}</div>
+      <button onclick="speak(document.querySelector('.shadowing-text').textContent)" style="margin-top:10px;font-size:12px;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;cursor:pointer;color:var(--text2);width:100%">🔊 朗读示范</button>
+    </div>
+
     <div class="sec-title">听后思考</div>
     <div class="card">
       ${(ex.focusQuestions||[]).map((q,i)=>`
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
+        <div style="padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2);line-height:1.5">
           ${i+1}. ${q}
         </div>
       `).join('')}
-      <div style="margin-top:10px;font-size:11px;color:var(--text3)">听完后去「日志」记录你的收获</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3)">听完后去「日志」记录收获和生词</div>
     </div>
     <button class="btn" style="width:100%;margin-top:4px" onclick="gotoTab('log')">去记录今日听力 →</button>
   `;
@@ -1373,6 +1436,5 @@ if (S.key) {
   document.getElementById('view-setup').classList.add('on');
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
