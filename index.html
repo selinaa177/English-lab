@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>English Lab</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
+:root{
+  --bg:#F7F4EF;--bg2:#FFFFFF;--bg3:#EFECE6;--bg4:#E8E4DC;
+  --border:#E2DDD5;--border2:#CFC9BF;
+  --text:#28241E;--text2:#6B6560;--text3:#9E9890;
+  --accent:#C8520A;--accent2:rgba(200,82,10,.1);--accent3:rgba(200,82,10,.06);
+  --green:#2E7D52;--green2:rgba(46,125,82,.1);
+  --blue:#2D5FA0;--blue2:rgba(45,95,160,.1);
+  --amber:#B07820;--amber2:rgba(176,120,32,.1);
+  --red:#B83030;--red2:rgba(184,48,48,.1);
+  --serif:'Lora',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'Noto Sans SC',-apple-system,sans-serif;
+  --r:12px;--shadow:0 1px 4px rgba(0,0,0,.06);--shadow2:0 2px 12px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto}
+
+/* ── Header ── */
+.hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 18px 12px;flex-shrink:0}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.hdr-brand{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.hdr-brand span{color:var(--accent)}
+.hdr-level{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.hdr-right{text-align:right}
+.hdr-streak{font-family:var(--mono);font-size:26px;font-weight:500;color:var(--accent);line-height:1}
+.hdr-slabel{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.hdr-stats{display:flex;gap:14px}
+.hdr-stat{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.hdr-stat b{color:var(--text2);font-weight:500}
+.token-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:2px 8px;margin-left:8px}
+.token-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+
+/* ── Nav ── */
+.nav{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex:1;min-width:52px;padding:9px 4px;font-size:11px;font-family:var(--sans);color:var(--text3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;white-space:nowrap}
+.nav-btn.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+
+/* ── Main ── */
+.main{flex:1;overflow-y:auto;padding:16px 18px 80px;-webkit-overflow-scrolling:touch}
+.main::-webkit-scrollbar{width:2px}
+.main::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.view{display:none}.view.on{display:block}
+
+/* ── UI Kit ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.sec-title{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;transition:opacity .15s;white-space:nowrap}
+.btn:active{opacity:.8}.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:none;color:var(--accent);border:1px solid var(--border)}
+.btn-sm{padding:5px 12px;font-size:11px;border-radius:6px}
+.btn-green{background:var(--green)}
+.btn-red{background:var(--red)}
+.chip{display:inline-flex;align-items:center;font-size:10px;font-family:var(--mono);padding:2px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.04em}
+.chip-acc{background:var(--accent2);color:var(--accent)}
+.chip-grn{background:var(--green2);color:var(--green)}
+.chip-blu{background:var(--blue2);color:var(--blue)}
+.chip-amb{background:var(--amber2);color:var(--amber)}
+.chip-red{background:var(--red2);color:var(--red)}
+.input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;transition:border-color .15s}
+.input:focus{border-color:var(--accent)}
+.input::placeholder{color:var(--text3)}
+.textarea{width:100%;min-height:120px;resize:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px;font-family:var(--serif);font-size:15px;color:var(--text);line-height:1.7;outline:none;transition:border-color .15s}
+.textarea:focus{border-color:var(--accent)}
+.textarea::placeholder{color:var(--text3);font-family:var(--sans);font-size:13px}
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle}
+.spinner-dark{border-color:var(--border);border-top-color:var(--accent)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:40px 0;font-size:13px;color:var(--text3);line-height:2}
+.filter-row{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.filter-row::-webkit-scrollbar{display:none}
+.fchip{font-size:11px;font-family:var(--sans);padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text3);cursor:pointer;white-space:nowrap;transition:all .15s}
+.fchip.on{border-color:var(--accent);color:var(--accent);background:var(--accent3)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .25s ease}
+
+/* ── Setup / Test ── */
+.setup-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:20px}
+.setup-icon{font-size:48px;margin-bottom:16px}
+.setup-title{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--text);margin-bottom:8px}
+.setup-desc{font-size:13px;color:var(--text2);line-height:1.7;max-width:300px;margin-bottom:24px}
+.key-input-wrap{width:100%;max-width:340px;margin-bottom:12px}
+.key-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-size:12px;font-family:var(--mono);color:var(--text);outline:none;transition:border-color .15s}
+.key-input:focus{border-color:var(--accent)}
+.key-input::placeholder{color:var(--text3)}
+
+/* ── Dashboard ── */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.dash-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;box-shadow:var(--shadow)}
+.dash-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.dash-val{font-size:21px;font-family:var(--mono);font-weight:500;color:var(--text)}
+.dash-val .u{font-size:11px;color:var(--text3);font-weight:400}
+.today-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.today-item:last-child{border-bottom:none}
+.today-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.today-label{font-size:13px;font-weight:500;color:var(--text)}
+.today-hint{font-size:11px;color:var(--text3);margin-top:1px}
+.today-cta{font-family:var(--mono);font-size:11px;color:var(--accent);background:var(--accent2);border:none;padding:5px 12px;border-radius:20px;cursor:pointer;flex-shrink:0}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:2px;transition:width .5s ease}
+
+/* ── Vocab ── */
+.vcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow)}
+.vcard-row{padding:12px 15px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.vcard-word{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--text);flex:1}
+.vcard-star{font-size:15px;color:var(--border2);cursor:pointer;transition:color .15s;padding:2px}
+.vcard-star.on{color:var(--amber)}
+.vcard-body{display:none;padding:0 15px 13px;border-top:1px solid var(--border)}
+.vcard-body.on{display:block}
+.vcard-ph{font-family:var(--mono);font-size:11px;color:var(--text3);margin:8px 0 5px}
+.vcard-def{font-size:13px;color:var(--text2);margin-bottom:8px;line-height:1.6}
+.vcard-ex{font-family:var(--serif);font-size:13px;color:var(--text2);font-style:italic;padding:8px 11px;background:var(--bg3);border-radius:6px;line-height:1.6}
+.vcard-exzh{font-style:normal;font-family:var(--sans);font-size:11px;color:var(--text3);margin-top:4px;display:block}
+
+/* Flashcard */
+.fc-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.fc-prog{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:12px}
+.fc{width:100%;max-width:360px;min-height:220px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;cursor:pointer;transition:transform .15s;user-select:none;text-align:center}
+.fc:active{transform:scale(.98)}
+.fc-word{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--text)}
+.fc-hint{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:14px}
+.fc-ph{font-family:var(--mono);font-size:12px;color:var(--text3);margin-top:10px}
+.fc-def{font-size:15px;color:var(--text2);margin-top:8px;line-height:1.6}
+.fc-ex{font-family:var(--serif);font-size:13px;color:var(--text3);font-style:italic;margin-top:12px;line-height:1.5}
+.fc-actions{display:flex;gap:10px;margin-top:18px;width:100%;max-width:360px}
+.fc-btn{flex:1;padding:12px 8px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);font-size:12px;font-family:var(--sans);cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+.fc-btn:active{transform:scale(.96)}
+
+/* ── Reading ── */
+.art-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer}
+.art-cat{font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:5px}
+.art-title{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:5px}
+.art-desc{font-size:12px;color:var(--text3);line-height:1.5}
+.art-meta{display:flex;gap:10px;margin-top:8px}
+.art-meta span{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.art-generating{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px}
+
+.reader-back{font-size:12px;color:var(--accent);background:none;border:none;cursor:pointer;font-family:var(--sans);padding:4px 0;margin-bottom:14px;display:inline-flex;align-items:center;gap:4px}
+.reader-title{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:14px}
+.reader-meta{display:flex;gap:10px;margin-bottom:16px}
+.reader-body{font-family:var(--serif);font-size:16px;color:var(--text);line-height:1.85}
+.reader-body p{margin-bottom:14px}
+.hl{background:var(--accent2);padding:1px 2px;border-radius:3px;cursor:pointer;border-bottom:1px solid rgba(200,82,10,.3)}
+.reader-q{margin-top:20px}
+.reader-q-title{font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:12px;padding-top:16px;border-top:1px solid var(--border)}
+.q-item{margin-bottom:16px}
+.q-text{font-size:14px;color:var(--text);margin-bottom:8px;line-height:1.5}
+.q-opts{display:flex;flex-direction:column;gap:6px}
+.q-opt{padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text2);cursor:pointer;background:var(--bg2);transition:all .15s;text-align:left}
+.q-opt.selected{border-color:var(--accent);background:var(--accent2);color:var(--accent);font-weight:500}
+.q-opt.correct{border-color:var(--green);background:var(--green2);color:var(--green)}
+.q-opt.wrong{border-color:var(--red);background:var(--red2);color:var(--red)}
+
+/* Word popup */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:99;display:none}
+.overlay.on{display:block}
+.popup{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:var(--bg2);border-radius:18px 18px 0 0;border-top:1px solid var(--border);padding:20px 20px 32px;box-shadow:0 -4px 24px rgba(0,0,0,.12);transition:transform .28s cubic-bezier(.32,.72,0,1);z-index:100}
+.popup.on{transform:translateX(-50%) translateY(0)}
+.popup-close{position:absolute;right:16px;top:16px;background:var(--bg3);border:none;width:28px;height:28px;border-radius:50%;font-size:14px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.popup-word{font-family:var(--serif);font-size:22px;font-weight:600}
+.popup-ph{font-family:var(--mono);font-size:12px;color:var(--text3);margin-top:3px}
+.popup-def{font-size:14px;color:var(--text2);margin-top:10px;line-height:1.6}
+
+/* ── Listening ── */
+.listen-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:10px;box-shadow:var(--shadow)}
+.listen-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.listen-src{font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.listen-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.listen-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--blue);text-decoration:none;font-weight:500}
+.listen-exercises{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.shadowing-text{font-family:var(--serif);font-size:15px;color:var(--text);line-height:1.8;padding:14px;background:var(--bg3);border-radius:8px;margin-bottom:12px}
+
+/* ── Writing ── */
+.prompt-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer}
+.prompt-cat{font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.prompt-text{font-family:var(--serif);font-size:15px;color:var(--text);line-height:1.5;margin-bottom:6px}
+.prompt-hint{font-size:11px;color:var(--text3);line-height:1.5}
+.fb-block{margin-bottom:14px}
+.fb-label{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:5px}
+.fb-text{font-size:13px;color:var(--text2);line-height:1.6}
+.fb-score{font-size:32px;font-family:var(--mono);font-weight:500;color:var(--accent)}
+.improved-text{font-family:var(--serif);font-size:14px;color:var(--text);line-height:1.8}
+
+/* ── Log ── */
+.log-entry{padding:10px 0;border-bottom:1px solid var(--border)}
+.log-entry:last-child{border-bottom:none}
+.log-meta{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:3px;display:flex;gap:8px;flex-wrap:wrap}
+.log-body{font-size:13px;color:var(--text2);line-height:1.5}
+
+/* ── Test ── */
+.test-q{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.test-qnum{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.test-qtext{font-size:14px;color:var(--text);margin-bottom:12px;line-height:1.6;font-family:var(--serif)}
+.test-opts{display:flex;flex-direction:column;gap:7px}
+.test-opt{padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text2);cursor:pointer;background:var(--bg2);transition:all .15s;text-align:left}
+.test-opt.selected{border-color:var(--accent);background:var(--accent2);color:var(--accent)}
+.test-opt.correct{border-color:var(--green);background:var(--green2);color:var(--green)}
+.test-opt.wrong{border-color:var(--red);background:var(--red2);color:var(--red)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hdr">
+    <div class="hdr-top">
+      <div>
+        <div class="hdr-brand">English<span>.</span>Lab</div>
+        <div class="hdr-level" id="hdrLevel">B1+ · 商务英语</div>
+      </div>
+      <div class="hdr-right">
+        <div class="hdr-streak" id="hdrStreak">1</div>
+        <div class="hdr-slabel">day streak</div>
+      </div>
+    </div>
+    <div class="hdr-stats">
+      <div class="hdr-stat">词汇 <b id="hVocab">0</b></div>
+      <div class="hdr-stat">学习 <b id="hMins">0</b>min</div>
+      <div class="hdr-stat">写作 <b id="hWrite">0</b>篇</div>
+      <div class="token-badge"><span class="token-dot"></span><span id="tokenCount">0</span>k tokens</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn on" onclick="gotoTab(&#39;dash&#39;)">今日</button>
+    <button class="nav-btn" onclick="gotoTab(&#39;vocab&#39;)">词汇</button>
+    <button class="nav-btn" onclick="gotoTab(&#39;read&#39;)">阅读</button>
+    <button class="nav-btn" onclick="gotoTab(&#39;listen&#39;)">听力</button>
+    <button class="nav-btn" onclick="gotoTab(&#39;write&#39;)">写作</button>
+    <button class="nav-btn" onclick="gotoTab(&#39;log&#39;)">日志</button>
+  </div>
+
+  <div class="main">
+
+    <!-- ════ SETUP ════ -->
+    <div id="view-setup" class="view">
+      <div class="setup-wrap">
+        <div class="setup-icon">📚</div>
+        <div class="setup-title">English Lab</div>
+        <div class="setup-desc">你的 AI 驱动英语学习工具<br>请先填入 DeepSeek API Key 开始</div>
+        <div class="key-input-wrap">
+          <input class="key-input" id="keyInput" type="password" placeholder="sk-xxxxxxxxxxxxxxxx">
+        </div>
+        <button class="btn" onclick="saveKey()">开始使用 →</button>
+        <div style="margin-top:12px;font-size:11px;color:var(--text3)">Key 仅存在本地，不会上传</div>
+      </div>
+    </div>
+
+    <!-- ════ DASH ════ -->
+    <div id="view-dash" class="view on">
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-label">总词汇量</div>
+          <div class="dash-val" id="dVocab">0 <span class="u">词</span></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-label">待复习</div>
+          <div class="dash-val" id="dReview">0 <span class="u">词</span></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-label">累计时间</div>
+          <div class="dash-val" id="dMins">0 <span class="u">min</span></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-label">下次测验</div>
+          <div class="dash-val" id="dNextTest" style="font-size:14px">今天!</div>
+        </div>
+      </div>
+      <div class="sec-title">今日任务</div>
+      <div id="todayList">
+    <div class="today-item fade-up" style="animation-delay:0s">
+      <div class="today-ico" style="background:var(--accent2)">📝</div>
+      <div style="flex:1">
+        <div class="today-label">今日新词 (25词)</div>
+        <div class="today-hint">25个新词 · AI生成 · 含音标例句</div>
+      </div>
+      <button class="today-cta" onclick="gotoTabWithMode(&#39;vocab&#39;,&#39;daily&#39;)">GO →</button>
+    </div>
+  
+    <div class="today-item fade-up" style="animation-delay:0.05s">
+      <div class="today-ico" style="background:var(--blue2)">📖</div>
+      <div style="flex:1">
+        <div class="today-label">阅读练习</div>
+        <div class="today-hint">商务文章 · 生词高亮 · 理解问答</div>
+      </div>
+      <button class="today-cta" onclick="gotoTabWithMode(&#39;read&#39;,&#39;&#39;)">GO →</button>
+    </div>
+  
+    <div class="today-item fade-up" style="animation-delay:0.1s">
+      <div class="today-ico" style="background:rgba(46,125,82,.08)">🎧</div>
+      <div style="flex:1">
+        <div class="today-label">听力任务</div>
+        <div class="today-hint">BBC/播客资源 + AI配套练习</div>
+      </div>
+      <button class="today-cta" onclick="gotoTabWithMode(&#39;listen&#39;,&#39;&#39;)">GO →</button>
+    </div>
+  
+    <div class="today-item fade-up" style="animation-delay:0.15000000000000002s">
+      <div class="today-ico" style="background:var(--amber2)">✍️</div>
+      <div style="flex:1">
+        <div class="today-label">写作练习 · 2天后</div>
+        <div class="today-hint">周三 + 周六 · 每次1篇 · AI批改</div>
+      </div>
+      <button class="today-cta" onclick="gotoTabWithMode(&#39;write&#39;,&#39;&#39;)">GO →</button>
+    </div>
+  </div>
+    </div>
+
+    <!-- ════ VOCAB ════ -->
+    <div id="view-vocab" class="view">
+      <div class="filter-row">
+        <button class="fchip on" onclick="setVmode(&#39;list&#39;)">词汇本</button>
+        <button class="fchip" onclick="setVmode(&#39;flash&#39;)">闪卡</button>
+        <button class="fchip" onclick="setVmode(&#39;daily&#39;)">今日新词</button>
+        <button class="fchip" onclick="setVmode(&#39;add&#39;)">手动添加</button>
+      </div>
+      <div id="vlist"><div class="empty">词汇本还是空的<br>去「今日新词」开始积累 ✨</div></div>
+      <div id="vflash" style="display:none"></div>
+      <div id="vdaily" style="display:none"></div>
+      <div id="vadd" style="display:none">
+        <div class="card">
+          <div style="margin-bottom:10px;font-size:13px;color:var(--text2)">输入单词，AI 自动补全释义和例句</div>
+          <div style="display:flex;gap:8px;margin-bottom:8px">
+            <input class="input" id="addWordInput" placeholder="输入英文单词..." style="flex:1">
+            <button class="btn" onclick="addWordManual()">添加</button>
+          </div>
+          <div id="addWordMsg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ READ ════ -->
+    <div id="view-read" class="view">
+      <div id="readList"></div>
+      <div id="readArticle" style="display:none"></div>
+    </div>
+
+    <!-- ════ LISTEN ════ -->
+    <div id="view-listen" class="view">
+      <div id="listenContent">
+    <div class="sec-title">今日听力资源</div>
+    <div class="listen-card">
+      <div class="listen-src">B1-B2</div>
+      <div class="listen-title">BBC 6 Minute English</div>
+      <div class="listen-desc">每期6分钟，有文稿，适合B1-B2</div>
+      <a class="listen-link" href="https://www.bbc.co.uk/learningenglish/english/features/6-minute-english" target="_blank">🔗 去收听 →</a>
+    </div>
+    <div class="sec-title">跟读练习 (Shadowing)</div>
+    <div class="card">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">朗读下面这段文字，模仿节奏和语气，可录音回听</div>
+      <div class="shadowing-text">So, we're talking about the rise of remote work, and how it's really changed the way we do business. I mean, it's not just about working from home anymore; it's about building a whole new culture around flexibility and trust. Companies that get this right are seeing a huge boost in productivity and employee satisfaction.</div>
+    </div>
+    <div class="sec-title">听前预习词汇</div>
+    <div class="card">
+      
+        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">remote work</span>
+          <span style="font-size:12px;color:var(--text3)">远程工作</span>
+        </div>
+      
+        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">flexibility</span>
+          <span style="font-size:12px;color:var(--text3)">灵活性</span>
+        </div>
+      
+        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">productivity</span>
+          <span style="font-size:12px;color:var(--text3)">生产力</span>
+        </div>
+      
+        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">employee satisfaction</span>
+          <span style="font-size:12px;color:var(--text3)">员工满意度</span>
+        </div>
+      
+        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">culture</span>
+          <span style="font-size:12px;color:var(--text3)">文化</span>
+        </div>
+      
+    </div>
+    <div class="sec-title">听后思考</div>
+    <div class="card">
+      
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
+          1. 根据对话，远程工作如何改变了商业运作方式？
+        </div>
+      
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
+          2. 公司如何通过远程工作提高员工满意度？
+        </div>
+      
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
+          3. 对话中提到的‘灵活性’和‘信任’对远程工作有什么重要性？
+        </div>
+      
+      <div style="margin-top:10px;font-size:11px;color:var(--text3)">听完后去「日志」记录你的收获</div>
+    </div>
+    <button class="btn" style="width:100%;margin-top:4px" onclick="gotoTab(&#39;log&#39;)">去记录今日听力 →</button>
+  </div>
+    </div>
+
+    <!-- ════ WRITE ════ -->
+    <div id="view-write" class="view">
+      <div id="writePrompts">
+      <div class="card" style="text-align:center;padding:32px 20px">
+        <div style="font-size:32px;margin-bottom:12px">☕</div>
+        <div style="font-family:var(--serif);font-size:17px;font-weight:600;color:var(--text);margin-bottom:8px">今天不用写作</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7">写作日是<b>周三 + 周六</b><br>距离下次写作还有 <b style="color:var(--accent)">2天</b>（周三）</div>
+        <div style="margin-top:16px;font-size:12px;color:var(--text3)">今天可以多复习词汇或做阅读 👌</div>
+      </div>
+      
+    </div>
+      <div id="writeEditor" style="display:none">
+        <button class="reader-back" onclick="backToPrompts()">← 返回</button>
+        <div id="writeCurrentPrompt"></div>
+        <textarea class="textarea" id="writeInput" placeholder="Start writing in English..." style="min-height:160px;margin-bottom:10px"></textarea>
+        <div style="display:flex;justify-content:flex-end;gap:8px">
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById(&#39;writeInput&#39;).value=&#39;&#39;;document.getElementById(&#39;writeFeedback&#39;).style.display=&#39;none&#39;">清空</button>
+          <button class="btn btn-sm" id="submitWriteBtn" onclick="submitWriting()">AI 批改</button>
+        </div>
+        <div id="writeFeedback" style="display:none;margin-top:14px"></div>
+      </div>
+    </div>
+
+    <!-- ════ LOG ════ -->
+    <div id="view-log" class="view">
+      <div class="card" style="margin-bottom:16px">
+        <textarea class="textarea" id="logText" placeholder="今天学了什么英语？" style="min-height:80px;background:var(--bg3);border-color:var(--border)"></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+          <select class="input" id="logType" style="flex:1;-webkit-appearance:none">
+            <option value="">类型...</option>
+            <option>阅读</option><option>词汇</option><option>听力</option><option>写作</option><option>口语</option><option>外贸</option>
+          </select>
+          <input class="input" id="logMins" type="number" placeholder="分钟" style="width:72px">
+          <button class="btn" onclick="addLog()">记录</button>
+        </div>
+      </div>
+      <div id="logList"><div class="empty">还没有学习记录<br>今天开始吧 📝</div></div>
+    </div>
+
+    <!-- ════ TEST ════ -->
+    <div id="view-test" class="view">
+      <div id="testContent"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Popup -->
+<div class="overlay" id="overlay" onclick="closePopup()"></div>
+<div class="popup" id="popup">
+  <button class="popup-close" onclick="closePopup()">✕</button>
+  <div class="popup-word" id="popupWord"></div>
+  <div class="popup-ph" id="popupPh"></div>
+  <div class="popup-def" id="popupDef"></div>
+  <button class="btn btn-sm" style="margin-top:14px" id="popupAddBtn" onclick="addFromPopup()">+ 加入词汇本</button>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+const DS_URL = 'https://api.openai.com/v1/chat/completions'; // we'll override base
+const MODEL = 'deepseek-chat'; // deepseek-v4-flash equivalent via their openai-compatible endpoint
+const DS_BASE = 'https://api.deepseek.com/v1/chat/completions';
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let S = {
+  key: '',
+  level: 'B1+',
+  streak: 0,
+  lastActive: null,
+  totalTokens: 0,
+  vocab: [],         // {word,phonetic,def,cat,example,exZh,starred,added,reviewCount,lastReview,mastered}
+  logs: [],          // {date,type,mins,text,ts}
+  writingCount: 0,
+  dailyVocab: null,  // {date, words:[]}
+  dailyReading: null,// {date, article:{}}
+  dailyListening: null, // {date, content:{}}
+  dailyWriting: null,// {date, prompts:[]}
+  testHistory: [],   // [{date,score,total}]
+  dayCount: 0,       // days since start
+  startDate: null,
+};
+
+function load() {
+  try {
+    const d = localStorage.getItem('elab_v2');
+    if (d) Object.assign(S, JSON.parse(d));
+  } catch(e) {}
+}
+function save() {
+  try { localStorage.setItem('elab_v2', JSON.stringify(S)); } catch(e) {}
+}
+
+// ══════════════════════════════════════════
+// API
+// ══════════════════════════════════════════
+async function ds(systemPrompt, userPrompt, maxTokens=800) {
+  const resp = await fetch(DS_BASE, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${S.key}`
+    },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      max_tokens: maxTokens,
+      temperature: 0.3,
+      messages: [
+        {role:'system', content: systemPrompt},
+        {role:'user', content: userPrompt}
+      ]
+    })
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(()=>({}));
+    throw new Error(err.error?.message || `HTTP ${resp.status}`);
+  }
+  const data = await resp.json();
+  // track tokens
+  if (data.usage) {
+    S.totalTokens += (data.usage.total_tokens || 0);
+    save();
+    document.getElementById('tokenCount').textContent = Math.round(S.totalTokens/1000);
+  }
+  return data.choices[0].message.content;
+}
+
+async function dsJSON(system, user, maxTokens=800) {
+  const raw = await ds(system, user, maxTokens);
+  const clean = raw.replace(/```json|```/g,'').trim();
+  return JSON.parse(clean);
+}
+
+// ══════════════════════════════════════════
+// SETUP
+// ══════════════════════════════════════════
+function saveKey() {
+  const k = document.getElementById('keyInput').value.trim();
+  if (!k.startsWith('sk-')) { alert('请输入有效的 DeepSeek API Key'); return; }
+  S.key = k;
+  if (!S.startDate) {
+    S.startDate = new Date().toDateString();
+    S.dayCount = 1;
+  }
+  save();
+  showMainApp();
+}
+
+function showMainApp() {
+  document.getElementById('view-setup').classList.remove('on');
+  updateStreak();
+  renderAll();
+  gotoTab('dash');
+}
+
+// ══════════════════════════════════════════
+// STREAK
+// ══════════════════════════════════════════
+function updateStreak() {
+  const today = new Date().toDateString();
+  if (S.lastActive === today) return;
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  if (S.lastActive === yesterday) S.streak++;
+  else if (S.lastActive !== today) S.streak = S.logs.length > 0 ? Math.max(S.streak,1) : 1;
+  S.lastActive = today;
+  save();
+}
+function markActive() {
+  const today = new Date().toDateString();
+  if (S.lastActive !== today) { S.lastActive = today; S.streak = Math.max(S.streak,1); save(); }
+}
+
+// ══════════════════════════════════════════
+// TODAY UTILS
+// ══════════════════════════════════════════
+const today = () => new Date().toDateString();
+const isTodayData = (d) => d && d.date === today();
+
+// ══════════════════════════════════════════
+// RENDER ALL
+// ══════════════════════════════════════════
+function renderAll() {
+  renderHeader();
+  renderDash();
+  renderVocab('list');
+  renderWritePrompts();
+  renderListenContent();
+  renderLogList();
+}
+
+function renderHeader() {
+  document.getElementById('hdrStreak').textContent = S.streak;
+  document.getElementById('hdrLevel').textContent = `${S.level} · 商务英语`;
+  document.getElementById('hVocab').textContent = S.vocab.length;
+  document.getElementById('hMins').textContent = S.logs.reduce((a,l)=>a+(parseInt(l.mins)||0),0);
+  document.getElementById('hWrite').textContent = S.writingCount;
+  document.getElementById('tokenCount').textContent = Math.round(S.totalTokens/1000);
+}
+
+// ══════════════════════════════════════════
+// DASH
+// ══════════════════════════════════════════
+function renderDash() {
+  const due = S.vocab.filter(v=>!v.lastReview||Date.now()-v.lastReview>86400000).length;
+  document.getElementById('dVocab').innerHTML = `${S.vocab.length} <span class="u">词</span>`;
+  document.getElementById('dReview').innerHTML = `${due} <span class="u">词</span>`;
+  document.getElementById('dMins').innerHTML = `${S.logs.reduce((a,l)=>a+(parseInt(l.mins)||0),0)} <span class="u">min</span>`;
+
+  // next biweekly test
+  const daysIn = S.dayCount || 1;
+  const nextTest = 14 - ((daysIn-1) % 14);
+  document.getElementById('dNextTest').textContent = nextTest === 14 ? '今天!' : `${nextTest}天后`;
+
+  const tasks = [
+    {ico:'📝', bg:'var(--accent2)', label:`今日新词 (${isTodayData(S.dailyVocab)?S.dailyVocab.words.length:25}词)`, hint:'25个新词 · AI生成 · 含音标例句', tab:'vocab', mode:'daily'},
+    {ico:'📖', bg:'var(--blue2)', label:'阅读练习', hint:'商务文章 · 生词高亮 · 理解问答', tab:'read'},
+    {ico:'🎧', bg:'rgba(46,125,82,.08)', label:'听力任务', hint:'BBC/播客资源 + AI配套练习', tab:'listen'},
+    {ico:'✍️', bg:'var(--amber2)', label: isWritingDay() ? '写作练习 · 今天要写！' : `写作练习 · ${daysUntilNextWriting()}天后`, hint:'周三 + 周六 · 每次1篇 · AI批改', tab:'write'},
+  ];
+
+  document.getElementById('todayList').innerHTML = tasks.map((t,i)=>`
+    <div class="today-item fade-up" style="animation-delay:${i*.05}s">
+      <div class="today-ico" style="background:${t.bg}">${t.ico}</div>
+      <div style="flex:1">
+        <div class="today-label">${t.label}</div>
+        <div class="today-hint">${t.hint}</div>
+      </div>
+      <button class="today-cta" onclick="gotoTabWithMode('${t.tab}','${t.mode||''}')">GO →</button>
+    </div>
+  `).join('');
+}
+
+function gotoTabWithMode(tab, mode) {
+  gotoTab(tab);
+  if (tab==='vocab' && mode) { setTimeout(()=>setVmode(mode),50); }
+}
+
+// ══════════════════════════════════════════
+// VOCAB
+// ══════════════════════════════════════════
+let vmode = 'list';
+let flashIdx=0, flashRevealed=false, flashQueue=[];
+
+function setVmode(m) {
+  vmode = m;
+  document.querySelectorAll('#view-vocab .fchip').forEach((b,i)=>{
+    b.classList.toggle('on', ['list','flash','daily','add'][i]===m);
+  });
+  ['list','flash','daily','add'].forEach(id=>{
+    document.getElementById('v'+id).style.display = id===m?'block':'none';
+  });
+  if (m==='list') renderVocab('list');
+  if (m==='flash') initFlash();
+  if (m==='daily') renderDailyVocab();
+}
+
+function renderVocab() {
+  const el = document.getElementById('vlist');
+  if (!S.vocab.length) { el.innerHTML = '<div class="empty">词汇本还是空的<br>去「今日新词」开始积累 ✨</div>'; return; }
+  const catMap = {biz:'商务',trade:'外贸',data:'数据',general:'通用',ielts:'雅思'};
+  el.innerHTML = S.vocab.map((v,i)=>`
+    <div class="vcard">
+      <div class="vcard-row" onclick="toggleVcard(${i})">
+        <div class="vcard-word">${v.word}</div>
+        <span class="chip chip-${v.cat==='biz'?'acc':v.cat==='trade'?'grn':v.cat==='data'?'blu':v.cat==='ielts'?'amb':''}">
+          ${catMap[v.cat]||v.cat}
+        </span>
+        <div class="vcard-star ${v.starred?'on':''}" onclick="event.stopPropagation();toggleStar(${i})">★</div>
+      </div>
+      <div class="vcard-body" id="vb${i}">
+        <div class="vcard-ph">${v.phonetic||''}</div>
+        <div class="vcard-def">${v.def}</div>
+        ${v.example?`<div class="vcard-ex">${v.example}${v.exZh?`<span class="vcard-exzh">${v.exZh}</span>`:''}</div>`:''}
+        <div style="margin-top:10px">
+          <button class="btn btn-sm" style="background:var(--red2);color:var(--red);font-size:11px" onclick="removeWord(${i})">删除</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleVcard(i) { document.getElementById('vb'+i)?.classList.toggle('on'); }
+function toggleStar(i) { S.vocab[i].starred=!S.vocab[i].starred; save(); renderVocab(); }
+function removeWord(i) { S.vocab.splice(i,1); save(); renderAll(); }
+
+// Daily Vocab — AI generated
+async function renderDailyVocab() {
+  const el = document.getElementById('vdaily');
+  if (isTodayData(S.dailyVocab)) {
+    el.innerHTML = renderDailyVocabHTML(S.dailyVocab.words);
+    return;
+  }
+  el.innerHTML = `<div class="art-generating"><span class="spinner spinner-dark"></span><br><br>AI 正在生成今日25个新词...</div>`;
+  try {
+    const existing = S.vocab.slice(0,30).map(v=>v.word).join(', ');
+    const words = await dsJSON(
+      `You are an English vocabulary teacher for a Chinese professional at B1+ level transitioning to business analytics and cross-border trade. Generate vocabulary that is practical and workplace-relevant.`,
+      `Generate exactly 25 English vocabulary words for today's lesson. Level: B1+ to B2. Focus: business, data analytics, and international trade. 
+${existing ? `Avoid these already-known words: ${existing}` : ''}
+Return ONLY a JSON array of 25 objects, no other text:
+[{"word":"...","phonetic":"/…/","def":"中文释义(简洁)","cat":"biz|trade|data|ielts|general","example":"One business example sentence.","exZh":"例句的中文翻译"}]`,
+      2000
+    );
+    S.dailyVocab = { date: today(), words };
+    save();
+    el.innerHTML = renderDailyVocabHTML(words);
+  } catch(e) {
+    el.innerHTML = `<div class="empty">生成失败: ${e.message}<br><button class="btn btn-sm" style="margin-top:10px" onclick="renderDailyVocab()">重试</button></div>`;
+  }
+}
+
+function renderDailyVocabHTML(words) {
+  const catMap = {biz:'商务',trade:'外贸',data:'数据',general:'通用',ielts:'雅思'};
+  const catChip = {biz:'chip-acc',trade:'chip-grn',data:'chip-blu',ielts:'chip-amb',general:''};
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-size:12px;color:var(--text3)">今日 ${words.length} 个新词</div>
+      <button class="btn btn-sm" onclick="addAllDailyWords()">全部加入词汇本</button>
+    </div>
+    ${words.map((w,i)=>`
+      <div class="vcard">
+        <div class="vcard-row" onclick="toggleDailyCard(${i})">
+          <div class="vcard-word">${w.word}</div>
+          <span class="chip ${catChip[w.cat]||''}">${catMap[w.cat]||w.cat}</span>
+          <div class="vcard-star" onclick="event.stopPropagation();addOneDailyWord(${i})" title="加入词汇本">+</div>
+        </div>
+        <div class="vcard-body" id="dvc${i}">
+          <div class="vcard-ph">${w.phonetic||''}</div>
+          <div class="vcard-def">${w.def}</div>
+          ${w.example?`<div class="vcard-ex">${w.example}${w.exZh?`<span class="vcard-exzh">${w.exZh}</span>`:''}</div>`:''}
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function toggleDailyCard(i) { document.getElementById('dvc'+i)?.classList.toggle('on'); }
+
+function addAllDailyWords() {
+  if (!S.dailyVocab?.words) return;
+  let added = 0;
+  S.dailyVocab.words.forEach(w => {
+    if (!S.vocab.find(v=>v.word.toLowerCase()===w.word.toLowerCase())) {
+      S.vocab.unshift({...w, starred:false, added:Date.now(), reviewCount:0, lastReview:null});
+      added++;
+    }
+  });
+  markActive(); save(); renderAll();
+  alert(`已添加 ${added} 个新词到词汇本`);
+}
+
+function addOneDailyWord(i) {
+  const w = S.dailyVocab?.words[i];
+  if (!w) return;
+  if (S.vocab.find(v=>v.word.toLowerCase()===w.word.toLowerCase())) return;
+  S.vocab.unshift({...w, starred:false, added:Date.now(), reviewCount:0, lastReview:null});
+  markActive(); save(); renderHeader();
+}
+
+// Manual add
+async function addWordManual() {
+  const input = document.getElementById('addWordInput');
+  const word = input.value.trim();
+  const msg = document.getElementById('addWordMsg');
+  if (!word) return;
+  if (S.vocab.find(v=>v.word.toLowerCase()===word.toLowerCase())) {
+    msg.innerHTML = '<div style="color:var(--amber);font-size:12px;padding:6px 0">已在词汇本中</div>'; return;
+  }
+  msg.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:6px 0"><span class="spinner spinner-dark"></span> AI 查询中...</div>';
+  try {
+    const w = await dsJSON(
+      'You are a vocabulary assistant. Return only JSON, no markdown.',
+      `Word: "${word}". Return: {"word":"${word}","phonetic":"/…/","def":"中文释义","cat":"biz|trade|data|ielts|general","example":"Business context sentence.","exZh":"中文翻译"}`,
+      300
+    );
+    S.vocab.unshift({...w, starred:false, added:Date.now(), reviewCount:0, lastReview:null});
+    markActive(); save(); input.value='';
+    msg.innerHTML = '<div style="color:var(--green);font-size:12px;padding:6px 0">✓ 已添加</div>';
+    setTimeout(()=>{msg.innerHTML='';},2000);
+    renderAll();
+  } catch(e) {
+    msg.innerHTML = `<div style="color:var(--red);font-size:12px;padding:6px 0">失败: ${e.message}</div>`;
+  }
+}
+document.getElementById('addWordInput').addEventListener('keydown',e=>{ if(e.key==='Enter') addWordManual(); });
+
+// Flashcards
+function initFlash() {
+  flashQueue = S.vocab.filter(v=>!v.lastReview||Date.now()-v.lastReview>86400000);
+  flashIdx=0; flashRevealed=false;
+  renderFlash();
+}
+function renderFlash() {
+  const el = document.getElementById('vflash');
+  if (!S.vocab.length) { el.innerHTML='<div class="empty">还没有词汇<br>先去「今日新词」学一批</div>'; return; }
+  if (!flashQueue.length) { el.innerHTML='<div class="empty">🎉 今日复习完成！<br>所有单词均已复习</div>'; return; }
+  if (flashIdx>=flashQueue.length) { el.innerHTML='<div class="empty">🎉 本轮完成！<br>复习了 '+flashQueue.length+' 个单词</div>'; renderHeader(); return; }
+  const v = flashQueue[flashIdx];
+  el.innerHTML=`
+    <div class="fc-wrap">
+      <div class="fc-prog">${flashIdx+1} / ${flashQueue.length}</div>
+      <div class="fc" onclick="revealFlash()">
+        <div class="fc-word">${v.word}</div>
+        ${!flashRevealed?`<div class="fc-hint">点击查看释义</div>`:
+          `<div class="fc-ph">${v.phonetic||''}</div>
+           <div class="fc-def">${v.def}</div>
+           ${v.example?`<div class="fc-ex">${v.example}</div>`:''}`}
+      </div>
+      ${flashRevealed?`
+        <div class="fc-actions">
+          <button class="fc-btn" style="color:var(--red)" onclick="rateFlash('hard')">😣 不会</button>
+          <button class="fc-btn" style="color:var(--amber)" onclick="rateFlash('ok')">🤔 模糊</button>
+          <button class="fc-btn" style="color:var(--green)" onclick="rateFlash('easy')">😊 记住了</button>
+        </div>`:
+        ''}
+    </div>`;
+}
+function revealFlash(){flashRevealed=true;renderFlash();}
+function rateFlash(r){
+  const v=flashQueue[flashIdx];
+  const orig=S.vocab.find(w=>w.word===v.word);
+  if(orig){orig.lastReview=Date.now();orig.reviewCount=(orig.reviewCount||0)+1;if(r==='easy')orig.mastered=true;}
+  save(); flashIdx++; flashRevealed=false; renderFlash();
+}
+
+// ══════════════════════════════════════════
+// READING
+// ══════════════════════════════════════════
+const READ_TOPICS = ['商务策略','数据分析','跨境电商','职场沟通','供应链管理','市场营销','财务基础','项目管理'];
+
+async function renderReadList() {
+  const el = document.getElementById('readList');
+  if (isTodayData(S.dailyReading)) {
+    el.innerHTML = renderArticleCard(S.dailyReading.article);
+    return;
+  }
+  el.innerHTML = `<div class="art-generating"><span class="spinner spinner-dark"></span><br><br>AI 正在生成今日阅读...</div>`;
+  try {
+    const topic = READ_TOPICS[Math.floor(Math.random()*READ_TOPICS.length)];
+    const article = await dsJSON(
+      `You are an English reading content creator for Chinese professionals at B1-B2 level. Generate engaging, practical business English articles.`,
+      `Generate a business English reading article. Topic: ${topic}. Level: B1-B2. Length: 4-5 paragraphs (250-350 words). 
+Include 5 comprehension questions with 4 options each.
+Return ONLY JSON:
+{
+  "title": "Article title",
+  "category": "${topic}",
+  "level": "B1-B2",
+  "readTime": "5 min",
+  "paragraphs": ["paragraph 1 text...","paragraph 2...","paragraph 3...","paragraph 4..."],
+  "keywords": [{"word":"...","phonetic":"/…/","def":"中文释义"}],
+  "questions": [{"q":"Question?","opts":["A...","B...","C...","D..."],"answer":0}]
+}`,
+      1500
+    );
+    S.dailyReading = { date: today(), article };
+    save();
+    el.innerHTML = renderArticleCard(article);
+  } catch(e) {
+    el.innerHTML = `<div class="empty">生成失败: ${e.message}<br><button class="btn btn-sm" style="margin-top:10px" onclick="renderReadList()">重试</button></div>`;
+  }
+}
+
+function renderArticleCard(a) {
+  return `
+    <div class="art-card fade-up" onclick="openArticle()">
+      <div class="art-cat">${a.category||'Business'}</div>
+      <div class="art-title">${a.title}</div>
+      <div class="art-desc">点击开始阅读 · 生词高亮可查释义</div>
+      <div class="art-meta">
+        <span>📖 ${a.level||'B1-B2'}</span>
+        <span>⏱ ${a.readTime||'5 min'}</span>
+        <span>❓ ${(a.questions||[]).length}题</span>
+      </div>
+    </div>
+  `;
+}
+
+let qAnswers = {};
+function openArticle() {
+  const a = S.dailyReading?.article;
+  if (!a) return;
+  qAnswers = {};
+  document.getElementById('readList').style.display='none';
+  const el = document.getElementById('readArticle');
+  el.style.display='block';
+
+  // Highlight keywords
+  const kwMap = {};
+  (a.keywords||[]).forEach(k=>{ kwMap[k.word.toLowerCase()]={...k}; });
+
+  function hlPara(text) {
+    let out = text;
+    Object.entries(kwMap).forEach(([w,info])=>{
+      const re = new RegExp(`\\b(${w})\\b`,'gi');
+      out = out.replace(re, `<span class="hl" onclick="showPopup('${info.word}','${info.phonetic||''}','${(info.def||'').replace(/'/g,"\\'")}')">$1</span>`);
+    });
+    return out;
+  }
+
+  el.innerHTML = `
+    <button class="reader-back" onclick="closeArticle()">← 返回</button>
+    <div class="art-cat">${a.category||'Business'}</div>
+    <div class="reader-title">${a.title}</div>
+    <div class="reader-meta">
+      <span class="chip chip-acc">${a.level||'B1-B2'}</span>
+      <span class="chip chip-blu">${a.readTime||'5 min'}</span>
+    </div>
+    <div class="reader-body">
+      ${(a.paragraphs||[]).map(p=>`<p>${hlPara(p)}</p>`).join('')}
+    </div>
+    <div class="reader-q">
+      <div class="reader-q-title">理解问题</div>
+      ${(a.questions||[]).map((q,qi)=>`
+        <div class="q-item" id="qi${qi}">
+          <div class="q-text">${qi+1}. ${q.q}</div>
+          <div class="q-opts">
+            ${q.opts.map((o,oi)=>`
+              <button class="q-opt" id="qo${qi}-${oi}" onclick="answerQ(${qi},${oi},${q.answer})">${o}</button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function answerQ(qi, oi, correct) {
+  if (qAnswers[qi]!==undefined) return;
+  qAnswers[qi] = oi;
+  const selected = document.getElementById(`qo${qi}-${oi}`);
+  const correctEl = document.getElementById(`qo${qi}-${correct}`);
+  if (oi===correct) { selected.classList.add('correct'); }
+  else { selected.classList.add('wrong'); correctEl.classList.add('correct'); }
+}
+
+function closeArticle() {
+  document.getElementById('readList').style.display='block';
+  document.getElementById('readArticle').style.display='none';
+}
+
+// ══════════════════════════════════════════
+// LISTENING
+// ══════════════════════════════════════════
+const LISTEN_RESOURCES = [
+  {name:'BBC 6 Minute English', url:'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english', desc:'每期6分钟，有文稿，适合B1-B2', level:'B1-B2'},
+  {name:'BBC Business Daily', url:'https://www.bbc.co.uk/programmes/p002vsmz/episodes/downloads', desc:'真实商务新闻，无文稿，挑战更高', level:'B2+'},
+  {name:'All Ears English', url:'https://www.allearsenglish.com/', desc:'美式日常英语，口语化，适合生活商务场景', level:'B1-B2'},
+  {name:'English at Work (BBC)', url:'https://www.bbc.co.uk/learningenglish/english/features/english-at-work', desc:'专门的职场英语情景剧，超实用', level:'B1'},
+];
+
+async function renderListenContent() {
+  const el = document.getElementById('listenContent');
+  if (isTodayData(S.dailyListening)) {
+    el.innerHTML = renderListenHTML(S.dailyListening.content);
+    return;
+  }
+  el.innerHTML = `<div class="sec-title">今日听力</div><div class="art-generating"><span class="spinner spinner-dark"></span><br><br>AI 正在生成配套练习...</div>`;
+  try {
+    const res = LISTEN_RESOURCES[Math.floor(Date.now()/86400000)%LISTEN_RESOURCES.length];
+    const exercises = await dsJSON(
+      'You are an English listening exercise creator for B1-B2 Chinese learners.',
+      `Create listening exercises for "${res.name}". 
+Generate:
+1. A shadowing practice text (3-4 sentences in business English, natural spoken style)
+2. 5 key vocabulary words likely to appear in this podcast
+3. 3 listening focus questions (open-ended, in Chinese)
+Return ONLY JSON:
+{
+  "shadowText": "Text for shadowing practice...",
+  "keyWords": [{"word":"...","def":"中文释义"}],
+  "focusQuestions": ["问题1...","问题2...","问题3..."]
+}`,
+      600
+    );
+    const content = { resource: res, exercises };
+    S.dailyListening = { date: today(), content };
+    save();
+    el.innerHTML = renderListenHTML(content);
+  } catch(e) {
+    el.innerHTML = `<div class="empty">生成失败: ${e.message}<br><button class="btn btn-sm" style="margin-top:10px" onclick="renderListenContent()">重试</button></div>`;
+  }
+}
+
+function renderListenHTML(c) {
+  const {resource:r, exercises:ex} = c;
+  return `
+    <div class="sec-title">今日听力资源</div>
+    <div class="listen-card">
+      <div class="listen-src">${r.level}</div>
+      <div class="listen-title">${r.name}</div>
+      <div class="listen-desc">${r.desc}</div>
+      <a class="listen-link" href="${r.url}" target="_blank">🔗 去收听 →</a>
+    </div>
+    <div class="sec-title">跟读练习 (Shadowing)</div>
+    <div class="card">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">朗读下面这段文字，模仿节奏和语气，可录音回听</div>
+      <div class="shadowing-text">${ex.shadowText}</div>
+    </div>
+    <div class="sec-title">听前预习词汇</div>
+    <div class="card">
+      ${(ex.keyWords||[]).map(w=>`
+        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+          <span style="font-family:var(--serif);font-size:15px;font-weight:500;flex:1">${w.word}</span>
+          <span style="font-size:12px;color:var(--text3)">${w.def}</span>
+        </div>
+      `).join('')}
+    </div>
+    <div class="sec-title">听后思考</div>
+    <div class="card">
+      ${(ex.focusQuestions||[]).map((q,i)=>`
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)">
+          ${i+1}. ${q}
+        </div>
+      `).join('')}
+      <div style="margin-top:10px;font-size:11px;color:var(--text3)">听完后去「日志」记录你的收获</div>
+    </div>
+    <button class="btn" style="width:100%;margin-top:4px" onclick="gotoTab('log')">去记录今日听力 →</button>
+  `;
+}
+
+// ══════════════════════════════════════════
+// WRITING
+// ══════════════════════════════════════════
+const WRITE_CATS = [
+  {label:'商务邮件', color:'var(--accent)', chip:'chip-acc'},
+  {label:'数据报告', color:'var(--blue)', chip:'chip-blu'},
+  {label:'外贸询盘', color:'var(--green)', chip:'chip-grn'},
+  {label:'自我介绍', color:'var(--amber)', chip:'chip-amb'},
+  {label:'周报摘要', color:'var(--text2)', chip:''},
+];
+let currentWritePrompt = null;
+
+// Writing only on Wednesday (3) and Saturday (6)
+function isWritingDay() {
+  return [3, 6].includes(new Date().getDay());
+}
+function daysUntilNextWriting() {
+  const day = new Date().getDay();
+  // next Wed or Sat
+  const targets = [3, 6];
+  const diffs = targets.map(t => (t - day + 7) % 7 || 7);
+  return Math.min(...diffs);
+}
+
+async function renderWritePrompts() {
+  const el = document.getElementById('writePrompts');
+  if (!isWritingDay()) {
+    const d = daysUntilNextWriting();
+    const next = new Date().getDay() < 3 ? '周三' : '周六';
+    el.innerHTML = `
+      <div class="card" style="text-align:center;padding:32px 20px">
+        <div style="font-size:32px;margin-bottom:12px">☕</div>
+        <div style="font-family:var(--serif);font-size:17px;font-weight:600;color:var(--text);margin-bottom:8px">今天不用写作</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7">写作日是<b>周三 + 周六</b><br>距离下次写作还有 <b style="color:var(--accent)">${d}天</b>（${next}）</div>
+        <div style="margin-top:16px;font-size:12px;color:var(--text3)">今天可以多复习词汇或做阅读 👌</div>
+      </div>
+      ${S.writingCount > 0 ? `<div class="sec-title" style="margin-top:16px">历史记录</div>
+      <div class="card"><div style="font-size:13px;color:var(--text2)">累计完成写作 <b style="color:var(--accent)">${S.writingCount}</b> 篇 🎉</div></div>` : ''}
+    `;
+    return;
+  }
+  if (isTodayData(S.dailyWriting)) {
+    el.innerHTML = renderPromptCards(S.dailyWriting.prompts);
+    return;
+  }
+  el.innerHTML = `<div class="art-generating"><span class="spinner spinner-dark"></span><br><br>AI 正在生成本周写作题目...</div>`;
+  try {
+    const prompts = await dsJSON(
+      'You are a business English writing teacher for Chinese professionals at B1-B2 level.',
+      `Generate 1 writing prompt. Today is a writing practice day (Wednesday or Saturday). Make it practical and realistic. Pick one type: business email, data report, or trade inquiry.
+Return ONLY JSON array with 1 item:
+[{"cat":"商务邮件|数据报告|外贸询盘|自我介绍|周报摘要","prompt":"English writing task description (2-3 sentences)","hint":"中文提示：字数要求和写作要点","minWords":80}]`,
+      400
+    );
+    S.dailyWriting = { date: today(), prompts };
+    save();
+    el.innerHTML = renderPromptCards(prompts);
+  } catch(e) {
+    el.innerHTML = `<div class="empty">生成失败: ${e.message}<br><button class="btn btn-sm" style="margin-top:10px" onclick="renderWritePrompts()">重试</button></div>`;
+  }
+}
+
+function renderPromptCards(prompts) {
+  const catColor = {'商务邮件':'var(--accent)','数据报告':'var(--blue)','外贸询盘':'var(--green)','自我介绍':'var(--amber)','周报摘要':'var(--text2)'};
+  return prompts.map((p,i)=>`
+    <div class="prompt-card" onclick="startWriting(${i})">
+      <div class="prompt-cat" style="color:${catColor[p.cat]||'var(--accent)'}">${p.cat}</div>
+      <div class="prompt-text">${p.prompt}</div>
+      <div class="prompt-hint">${p.hint}</div>
+    </div>
+  `).join('');
+}
+
+function startWriting(i) {
+  currentWritePrompt = S.dailyWriting?.prompts?.[i];
+  if (!currentWritePrompt) return;
+  document.getElementById('writePrompts').style.display='none';
+  document.getElementById('writeEditor').style.display='block';
+  const catColor = {'商务邮件':'var(--accent)','数据报告':'var(--blue)','外贸询盘':'var(--green)','自我介绍':'var(--amber)','周报摘要':'var(--text2)'};
+  document.getElementById('writeCurrentPrompt').innerHTML = `
+    <div class="prompt-card" style="cursor:default;margin-bottom:14px">
+      <div class="prompt-cat" style="color:${catColor[currentWritePrompt.cat]||'var(--accent)'}">${currentWritePrompt.cat}</div>
+      <div class="prompt-text">${currentWritePrompt.prompt}</div>
+      <div class="prompt-hint">${currentWritePrompt.hint}</div>
+    </div>`;
+  document.getElementById('writeInput').value='';
+  document.getElementById('writeFeedback').style.display='none';
+}
+
+function backToPrompts() {
+  document.getElementById('writePrompts').style.display='block';
+  document.getElementById('writeEditor').style.display='none';
+  currentWritePrompt = null;
+}
+
+async function submitWriting() {
+  const text = document.getElementById('writeInput').value.trim();
+  if (!text || text.split(/\s+/).length < 10) { alert('请至少写10个词再提交'); return; }
+  const btn = document.getElementById('submitWriteBtn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> 批改中...';
+  try {
+    const fb = await dsJSON(
+      'You are a business English writing coach for Chinese professionals at B1-B2 level. Provide constructive, encouraging feedback.',
+      `Writing task: "${currentWritePrompt?.prompt}"
+Student wrote:
+"""
+${text}
+"""
+Return ONLY JSON:
+{"score":85,"grammarErrors":[{"error":"wrong phrase","fix":"correct phrase","explain":"简短中文解释"}],"styleFeedback":"中文点评整体风格(1-2句)","vocabFeedback":"中文点评词汇，推荐2-3个可替换的高级词","improvedVersion":"Complete improved version in English","encouragement":"鼓励的话(中文,1句)"}
+Limit grammar errors to top 3. Score out of 100.`,
+      900
+    );
+    const el = document.getElementById('writeFeedback');
+    el.style.display='block';
+    el.innerHTML = `
+      <div class="card">
+        <div class="fb-block">
+          <div class="fb-label">评分</div>
+          <div class="fb-score">${fb.score}<span style="font-size:14px;color:var(--text3)">/100</span></div>
+        </div>
+        ${(fb.grammarErrors||[]).length?`
+        <div class="fb-block">
+          <div class="fb-label">语法修正</div>
+          ${fb.grammarErrors.map(g=>`
+            <div style="margin-bottom:8px;font-size:13px;line-height:1.6;padding:8px;background:var(--bg3);border-radius:6px">
+              <span style="color:var(--red);text-decoration:line-through">${g.error}</span>
+              <span style="color:var(--text3)"> → </span>
+              <span style="color:var(--green);font-weight:500">${g.fix}</span>
+              <div style="font-size:11px;color:var(--text3);margin-top:3px">${g.explain}</div>
+            </div>
+          `).join('')}
+        </div>`:''} 
+        <div class="fb-block">
+          <div class="fb-label">风格点评</div>
+          <div class="fb-text">${fb.styleFeedback||''}</div>
+        </div>
+        <div class="fb-block">
+          <div class="fb-label">词汇建议</div>
+          <div class="fb-text">${fb.vocabFeedback||''}</div>
+        </div>
+        <div class="fb-block">
+          <div class="fb-label">改进版本</div>
+          <div class="improved-text">${fb.improvedVersion||''}</div>
+        </div>
+        <div style="padding:12px;background:var(--accent2);border-radius:8px;font-size:13px;color:var(--accent)">${fb.encouragement||''}</div>
+      </div>
+    `;
+    S.writingCount++; markActive(); save(); renderHeader();
+  } catch(e) {
+    document.getElementById('writeFeedback').style.display='block';
+    document.getElementById('writeFeedback').innerHTML=`<div class="card" style="color:var(--red)">批改失败: ${e.message}</div>`;
+  }
+  btn.disabled=false; btn.innerHTML='AI 批改';
+}
+
+// ══════════════════════════════════════════
+// POPUP
+// ══════════════════════════════════════════
+let popupData = {};
+function showPopup(word, ph, def) {
+  popupData = {word, ph, def};
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupPh').textContent = ph;
+  document.getElementById('popupDef').textContent = def;
+  const exists = S.vocab.find(v=>v.word.toLowerCase()===word.toLowerCase());
+  document.getElementById('popupAddBtn').style.display = exists?'none':'inline-flex';
+  document.getElementById('popup').classList.add('on');
+  document.getElementById('overlay').classList.add('on');
+}
+function closePopup() {
+  document.getElementById('popup').classList.remove('on');
+  document.getElementById('overlay').classList.remove('on');
+}
+function addFromPopup() {
+  const {word, ph, def} = popupData;
+  if (!word||S.vocab.find(v=>v.word.toLowerCase()===word.toLowerCase())) return;
+  S.vocab.unshift({word,phonetic:ph,def,cat:'general',example:'',exZh:'',starred:false,added:Date.now(),reviewCount:0,lastReview:null});
+  markActive(); save(); renderAll(); closePopup();
+}
+
+// ══════════════════════════════════════════
+// LOG
+// ══════════════════════════════════════════
+function addLog() {
+  const text = document.getElementById('logText').value.trim();
+  if (!text) return;
+  S.logs.unshift({
+    date: new Date().toLocaleDateString('zh-CN',{month:'numeric',day:'numeric',weekday:'short'}),
+    type: document.getElementById('logType').value,
+    mins: parseInt(document.getElementById('logMins').value)||0,
+    text, ts: Date.now()
+  });
+  markActive(); save();
+  document.getElementById('logText').value='';
+  document.getElementById('logMins').value='';
+  renderAll();
+}
+function renderLogList() {
+  const el = document.getElementById('logList');
+  if (!S.logs.length) { el.innerHTML='<div class="empty">还没有学习记录<br>今天开始吧 📝</div>'; return; }
+  el.innerHTML = S.logs.map(l=>`
+    <div class="log-entry">
+      <div class="log-meta">
+        <span>${l.date}</span>
+        ${l.type?`<span style="color:var(--accent)">${l.type}</span>`:''}
+        ${l.mins?`<span style="color:var(--amber)">${l.mins}min</span>`:''}
+      </div>
+      <div class="log-body">${l.text}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// BIWEEKLY TEST
+// ══════════════════════════════════════════
+async function startBiweeklyTest() {
+  gotoTab('test');
+  const el = document.getElementById('testContent');
+  el.innerHTML = `<div class="art-generating"><span class="spinner spinner-dark"></span><br><br>AI 正在生成测验题目...</div>`;
+  const knownWords = S.vocab.slice(0,40).map(v=>v.word).join(', ');
+  try {
+    const test = await dsJSON(
+      'You are an English test creator. Generate precise, fair multiple choice questions.',
+      `Generate a 15-question vocabulary and comprehension test for a B1-B2 Chinese learner.
+Draw from these words they have studied: ${knownWords || 'common business vocabulary'}.
+Mix question types: definition matching, fill-in-blank, context usage.
+Return ONLY JSON:
+{"questions":[{"q":"Question text (use blank ___ for fill-in)","opts":["A...","B...","C...","D..."],"answer":0,"explain":"简短中文解释为什么选这个"}]}`,
+      1200
+    );
+    renderTest(test.questions);
+  } catch(e) {
+    el.innerHTML = `<div class="empty">生成失败: ${e.message}<br><button class="btn btn-sm" style="margin-top:10px" onclick="startBiweeklyTest()">重试</button></div>`;
+  }
+}
+
+let testAnswers={}, testQuestions=[];
+function renderTest(questions) {
+  testQuestions=questions; testAnswers={};
+  const el = document.getElementById('testContent');
+  el.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-family:var(--serif);font-size:18px;font-weight:600">两周测验</div>
+      <span class="chip chip-acc">15题</span>
+    </div>
+    ${questions.map((q,qi)=>`
+      <div class="test-q" id="tq${qi}">
+        <div class="test-qnum">第 ${qi+1} 题</div>
+        <div class="test-qtext">${q.q}</div>
+        <div class="test-opts">
+          ${q.opts.map((o,oi)=>`
+            <button class="test-opt" id="to${qi}-${oi}" onclick="answerTest(${qi},${oi})">${o}</button>
+          `).join('')}
+        </div>
+      </div>
+    `).join('')}
+    <button class="btn" style="width:100%;margin-top:4px" onclick="submitTest()">提交答案</button>
+  `;
+}
+
+function answerTest(qi, oi) {
+  if (testAnswers[qi]!==undefined) return;
+  testAnswers[qi]=oi;
+  document.getElementById(`to${qi}-${oi}`).classList.add('selected');
+}
+
+function submitTest() {
+  if (Object.keys(testAnswers).length < testQuestions.length) {
+    alert('请回答所有题目再提交'); return;
+  }
+  let score=0;
+  testQuestions.forEach((q,qi)=>{
+    const ans=testAnswers[qi];
+    const correct=q.answer;
+    document.getElementById(`to${qi}-${ans}`).classList.remove('selected');
+    if (ans===correct) { document.getElementById(`to${qi}-${ans}`).classList.add('correct'); score++; }
+    else {
+      document.getElementById(`to${qi}-${ans}`).classList.add('wrong');
+      document.getElementById(`to${qi}-${correct}`).classList.add('correct');
+    }
+    // show explain
+    const tq = document.getElementById(`tq${qi}`);
+    if (q.explain) {
+      const d=document.createElement('div');
+      d.style.cssText='margin-top:8px;font-size:11px;color:var(--text3);padding:6px 10px;background:var(--bg3);border-radius:6px';
+      d.textContent=q.explain;
+      tq.appendChild(d);
+    }
+  });
+  S.testHistory.push({date:new Date().toLocaleDateString('zh-CN'),score,total:testQuestions.length});
+  S.dayCount = (S.dayCount||0)+1;
+  save(); renderDash();
+  const el = document.getElementById('testContent');
+  const resultDiv = document.createElement('div');
+  resultDiv.style.cssText='position:sticky;bottom:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px;text-align:center;box-shadow:var(--shadow2)';
+  resultDiv.innerHTML=`
+    <div style="font-family:var(--mono);font-size:28px;font-weight:500;color:var(--accent)">${score}/${testQuestions.length}</div>
+    <div style="font-size:13px;color:var(--text2);margin-top:4px">${score>=12?'🎉 优秀！继续保持':score>=9?'👍 良好，再接再厉':'💪 加油，多复习词汇'}</div>
+    <button class="btn" style="margin-top:12px;width:100%" onclick="gotoTab('dash')">返回首页</button>
+  `;
+  el.insertBefore(resultDiv, el.firstChild);
+  el.scrollTop=0;
+}
+
+// ══════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════
+function gotoTab(tab) {
+  const tabs=['dash','vocab','read','listen','write','log','test'];
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('on',tabs[i]===tab));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='view-'+tab));
+  // Lazy load
+  if (tab==='read' && !isTodayData(S.dailyReading)) renderReadList();
+  if (tab==='read' && isTodayData(S.dailyReading)) { document.getElementById('readList').innerHTML=renderArticleCard(S.dailyReading.article); }
+  if (tab==='listen') renderListenContent();
+  if (tab==='write') renderWritePrompts();
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+load();
+if (S.key) {
+  document.getElementById('view-setup').classList.remove('on');
+  updateStreak();
+  renderAll();
+  gotoTab('dash');
+  // Show test tab in nav if biweekly
+  const daysIn = S.dayCount||1;
+  if ((daysIn-1)%14===0 && daysIn>1) {
+    const testBtn=document.createElement('button');
+    testBtn.className='nav-btn';
+    testBtn.textContent='📝测验';
+    testBtn.onclick=()=>startBiweeklyTest();
+    document.querySelector('.nav').appendChild(testBtn);
+  }
+} else {
+  document.getElementById('view-setup').classList.add('on');
+}
+</script>
+
+
+</body></html>
